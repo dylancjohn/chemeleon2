@@ -18,6 +18,8 @@ dependencies = [
     "hydra-optuna-sweeper==1.2.0",
     "jupyterlab>=4.4.6",
     "lightning>=2.5.4",
+    "mp-api>=0.45.8",
+    "nglview>=3.1.4",
     "peft>=0.17.1",
     "pydantic>=2.11.7",
     "pymatgen>=2025.6.14",
