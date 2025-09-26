@@ -369,7 +369,7 @@ class Metrics:
         """Convert results to a pandas DataFrame."""
         df = pd.DataFrame(self._results)
         if include_structure:
-            df["structure"] = [s.to(fmt="cif") for s in self._gen_structures]
+            df["cif"] = [s.to(fmt="cif") for s in self._gen_structures]
         return df
 
     def to_csv(self, path: str):
