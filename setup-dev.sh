@@ -23,9 +23,19 @@ if [ "$PYTHON_MAJOR" -lt 3 ] || { [ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR"
 fi
 echo "✓ Python $PYTHON_VERSION"
 
-# 2. Install pre-commit framework
+# 2. Check if uv is installed
+echo -n "Checking uv package manager... "
+if ! command -v uv &> /dev/null; then
+    echo "✗ Not found"
+    echo "ERROR: uv package manager is required."
+    echo "Install uv: curl -LsSf https://astral.sh/uv/install.sh | sh"
+    exit 2
+fi
+echo "✓ Found"
+
+# 3. Install pre-commit framework
 echo -n "Installing pre-commit... "
-if pip install pre-commit > /dev/null 2>&1; then
+if uv pip install pre-commit > /dev/null 2>&1; then
     echo "✓ Done"
 else
     echo "✗ Failed"
@@ -33,9 +43,9 @@ else
     exit 2
 fi
 
-# 3. Install Ruff
+# 4. Install Ruff
 echo -n "Installing Ruff... "
-if pip install ruff > /dev/null 2>&1; then
+if uv pip install ruff > /dev/null 2>&1; then
     echo "✓ Done"
 else
     echo "✗ Failed"
@@ -43,9 +53,9 @@ else
     exit 2
 fi
 
-# 4. Install pyright
+# 5. Install pyright
 echo -n "Installing pyright... "
-if pip install pyright > /dev/null 2>&1; then
+if uv pip install pyright > /dev/null 2>&1; then
     echo "✓ Done"
 else
     echo "✗ Failed"
@@ -53,7 +63,7 @@ else
     exit 2
 fi
 
-# 5. Install pre-commit hooks
+# 6. Install pre-commit hooks
 echo -n "Installing pre-commit hooks... "
 if pre-commit install > /dev/null 2>&1; then
     echo "✓ Done"
@@ -67,7 +77,7 @@ echo ""
 echo "✓ Development environment setup complete!"
 echo ""
 
-# 6. Optional: Run pre-commit on all files (warn but don't fail)
+# 7. Optional: Run pre-commit on all files (warn but don't fail)
 echo "Running pre-commit validation on all files..."
 echo "(This may take a moment and may show warnings)"
 echo ""

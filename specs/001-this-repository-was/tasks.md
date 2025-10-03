@@ -142,7 +142,7 @@
   - Add step: `pyright` (type checking)
   - Add step: `pytest` (runs full test suite including baseline)
 
-- [ ] **T011 [P]** Create setup script in `setup-dev.sh`
+- [x] **T011 [P]** Create setup script in `setup-dev.sh`
   - Add shebang and `set -e`
   - Check Python version >= 3.11 (exit 1 if failed)
   - Install pre-commit framework (exit 2 if failed)
@@ -156,7 +156,7 @@
 
 ## Phase 3.4: Contract Tests (Validate Configuration Contracts)
 
-- [ ] **T012 [P]** Contract test for Ruff config in `tests/contract/test_ruff_config.py`
+- [x] **T012 [P]** Contract test for Ruff config in `tests/contract/test_ruff_config.py`
   - Assert `pyproject.toml` exists
   - Assert valid TOML syntax
   - Assert `[tool.ruff]` section exists
@@ -164,7 +164,7 @@
   - Assert `line-length = 88`
   - Assert all 11 rule sets in select array
 
-- [ ] **T012a [P]** Contract test for pyright config in `tests/contract/test_pyright_config.py`
+- [x] **T012a [P]** Contract test for pyright config in `tests/contract/test_pyright_config.py`
   - Assert `pyproject.toml` exists
   - Assert valid TOML syntax
   - Assert `[tool.pyright]` section exists
@@ -172,7 +172,7 @@
   - Assert `pythonVersion = "3.11"`
   - Assert warning-level settings for unknown types configured
 
-- [ ] **T013 [P]** Contract test for pre-commit config in `tests/contract/test_precommit_config.py`
+- [x] **T013 [P]** Contract test for pre-commit config in `tests/contract/test_precommit_config.py`
   - Assert `.pre-commit-config.yaml` exists
   - Assert valid YAML syntax
   - Assert ruff-pre-commit repo present
@@ -182,7 +182,7 @@
   - Assert versions are pinned (not "latest")
   - Assert pytest NOT in hooks
 
-- [ ] **T014 [P]** Contract test for GitHub Actions in `tests/contract/test_github_actions.py`
+- [x] **T014 [P]** Contract test for GitHub Actions in `tests/contract/test_github_actions.py`
   - Assert `.github/workflows/ci.yml` exists
   - Assert valid YAML syntax
   - Assert triggers on pull_request
@@ -192,7 +192,7 @@
   - Assert pyright step present
   - Assert pytest step present
 
-- [ ] **T015 [P]** Contract test for setup script in `tests/contract/test_setup_script.py`
+- [x] **T015 [P]** Contract test for setup script in `tests/contract/test_setup_script.py`
   - Assert `setup-dev.sh` exists and is executable
   - Test exit code 0 with Python 3.11+
   - Test creates `.git/hooks/pre-commit` after successful run
