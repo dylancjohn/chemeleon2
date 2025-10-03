@@ -79,19 +79,19 @@
   - Test overfit-single-batch capability
   - Mark with `@pytest.mark.smoke` and `@pytest.mark.baseline`
 
-- [ ] **T005 [P]** Create baseline test for RL module in `tests/baseline/test_rl_module.py`
+- [x] **T005 [P]** Create baseline test for RL module in `tests/baseline/test_rl_module.py`
   - Test RL agent instantiation
   - Test policy forward pass
   - Test overfit-single-batch capability
   - Mark with `@pytest.mark.smoke` and `@pytest.mark.baseline`
 
-- [ ] **T006 [P]** Create baseline test for data loading in `tests/baseline/test_data_loading.py`
+- [x] **T006 [P]** Create baseline test for data loading in `tests/baseline/test_data_loading.py`
   - Test dataloader batching (verify shapes BxCxHxW)
   - Test label alignment (count matches image count)
   - Test dtypes (float32 for images, long for labels)
   - Mark with `@pytest.mark.smoke` and `@pytest.mark.baseline`
 
-- [ ] **T007** Run baseline tests and verify GREEN status
+- [x] **T007** Run baseline tests and verify GREEN status
   - Execute: `pytest tests/baseline/ -v -m baseline`
   - All 4 test files must pass
   - If failures: Fix code issues BEFORE proceeding
@@ -112,12 +112,23 @@
   - Add `[tool.ruff.lint.mccabe]` with `max-complexity = 10`
   - Add inline comments explaining each rule category (e.g., "# F: Pyflakes errors", "# E/W: PEP 8 style", "# D: Docstrings", etc.) per FR-008
 
+- [ ] **T008a [P]** Configure pyright in pyproject.toml
+  - Add `[tool.pyright]` section to existing `pyproject.toml`
+  - Set `typeCheckingMode = "strict"`
+  - Set `pythonVersion = "3.11"`
+  - Set `reportMissingTypeStubs = "warning"`
+  - Set `reportUnknownMemberType = "warning"`
+  - Set `reportUnknownArgumentType = "warning"`
+  - Set `reportUnknownVariableType = "warning"`
+  - Add inline comments explaining strict mode settings per FR-018, FR-019
+
 - [ ] **T009 [P]** Create pre-commit configuration in `.pre-commit-config.yaml`
   - Add ruff-pre-commit repo with specific pinned version (e.g., `v0.1.9`, NOT `latest` or branch refs) to ensure local/CI consistency per edge case spec.md:L89
   - Configure ruff-format hook
   - Configure ruff lint hook with `--fix` arg
+  - Add pyright hook from pre-commit/mirrors-pyright repo (pinned version)
   - Add pre-commit-hooks repo with YAML/TOML/JSON validators (also pinned)
-  - Ensure ruff-format runs before ruff lint
+  - Ensure ruff-format runs before ruff lint, then pyright
   - Exclude pytest from pre-commit hooks
 
 - [ ] **T010 [P]** Create GitHub Actions workflow in `.github/workflows/ci.yml`
@@ -128,6 +139,7 @@
   - Add steps: checkout, setup Python 3.11, install deps
   - Add step: `ruff format --check .`
   - Add step: `ruff check .`
+  - Add step: `pyright` (type checking)
   - Add step: `pytest` (runs full test suite including baseline)
 
 - [ ] **T011 [P]** Create setup script in `setup-dev.sh`
@@ -135,6 +147,7 @@
   - Check Python version >= 3.11 (exit 1 if failed)
   - Install pre-commit framework (exit 2 if failed)
   - Install Ruff (exit 2 if failed)
+  - Install pyright (exit 2 if failed)
   - Run `pre-commit install` (exit 3 if failed)
   - Optionally run `pre-commit run --all-files` (warn but exit 0)
   - Make script executable: `chmod +x setup-dev.sh`
@@ -151,11 +164,20 @@
   - Assert `line-length = 88`
   - Assert all 11 rule sets in select array
 
+- [ ] **T012a [P]** Contract test for pyright config in `tests/contract/test_pyright_config.py`
+  - Assert `pyproject.toml` exists
+  - Assert valid TOML syntax
+  - Assert `[tool.pyright]` section exists
+  - Assert `typeCheckingMode = "strict"`
+  - Assert `pythonVersion = "3.11"`
+  - Assert warning-level settings for unknown types configured
+
 - [ ] **T013 [P]** Contract test for pre-commit config in `tests/contract/test_precommit_config.py`
   - Assert `.pre-commit-config.yaml` exists
   - Assert valid YAML syntax
   - Assert ruff-pre-commit repo present
   - Assert ruff-format and ruff hooks present
+  - Assert pyright hook present
   - Assert YAML/TOML/JSON validators present
   - Assert versions are pinned (not "latest")
   - Assert pytest NOT in hooks
@@ -167,6 +189,7 @@
   - Assert Python 3.11+ in setup step
   - Assert ruff format check step present
   - Assert ruff lint check step present
+  - Assert pyright step present
   - Assert pytest step present
 
 - [ ] **T015 [P]** Contract test for setup script in `tests/contract/test_setup_script.py`
@@ -221,14 +244,14 @@
 
 - [ ] **T021** Run all contract tests
   - Execute: `pytest tests/contract/ -v`
-  - All 4 contract tests must pass
+  - All 5 contract tests must pass (Ruff, pyright, pre-commit, GitHub Actions, setup script)
   - **Dependency**: Requires T008-T011 (all configs created)
 
 - [ ] **T022** Verify CI/CD workflow in GitHub
   - Push branch to GitHub
   - Open test Pull Request
   - Verify GitHub Actions CI runs automatically
-  - Verify all checks pass (format, lint, pytest)
+  - Verify all checks pass (format, lint, type checking, pytest)
   - Close test PR
   - **Dependency**: Requires T010, T019 (clean codebase), T021 (tests pass)
 
@@ -239,11 +262,11 @@
 - [ ] **T023 [P]** Create Claude agent pre-commit hook script in `.git-hooks/claude-autofix.sh`
   - Create custom git hooks directory `.git-hooks/`
   - Write bash script that:
-    - Runs `ruff format --check .` and `ruff check .`
-    - Captures Ruff error output
+    - Runs `ruff format --check .`, `ruff check .`, and `pyright`
+    - Captures Ruff and pyright error output
     - If errors found, invokes Claude Code CLI with error messages
     - Applies Claude's fixes automatically
-    - Re-runs Ruff validation
+    - Re-runs Ruff and pyright validation
     - **NEW: Runs `pytest tests/baseline/ -m smoke --maxfail=1` to verify fixes didn't break functionality**
     - **NEW: If tests fail, rolls back changes and exits with code 1**
     - Returns exit code 0 if fixed and tests pass, 1 if still failing or tests fail
@@ -252,12 +275,14 @@
 
 - [ ] **T024 [P]** Create Claude agent configuration in `.claude/hooks/pre-commit-autofix.md`
   - Create `.claude/hooks/` directory
-  - Define hook prompt template for Ruff error fixing
+  - Define hook prompt template for Ruff and pyright error fixing
   - Include instructions for Claude to:
     - Parse Ruff error messages
+    - Parse pyright type errors
     - Apply formatting fixes
     - Add missing docstrings
     - Add missing type hints
+    - Fix type inconsistencies
     - Fix import ordering
     - Reduce complexity if needed
   - Specify output format (direct file edits)
@@ -288,12 +313,13 @@
   - Add "Table of Contents" section
   - Add "Setup Instructions" with one-command setup
   - Add "Development Workflow" with commit process
-  - Add "Coding Standards" explaining Ruff rules
+  - Add "Coding Standards" explaining Ruff rules and pyright strict mode
+  - Add "Type Checking" section explaining pyright usage and strict mode requirements
   - Add "Manual AI Agent Usage" with example prompts for copying errors
   - Add "Claude Auto-Fix Usage" explaining `./scripts/claude-fix.sh` command
-  - Add "Troubleshooting" for common issues
+  - Add "Troubleshooting" for common issues including type checking errors
   - Add "CI/CD" explaining GitHub Actions workflow
-  - Add "CI/CD Failure Troubleshooting" explaining how to interpret GitHub Actions check failures (format check, lint check, pytest failures) for developers new to the workflow
+  - Add "CI/CD Failure Troubleshooting" explaining how to interpret GitHub Actions check failures (format check, lint check, type check, pytest failures) for developers new to the workflow
   - Reference quickstart.md for validation steps
   - **Dependency**: Requires T020 (verified workflow), T026 (Claude integration)
 
@@ -309,25 +335,27 @@ T003-T006 (baseline tests) → T007 (verify baseline)
 T007 GATES → Configuration Phase
 
 Configuration Phase:
-T008 (Ruff config) ┐
-T009 (pre-commit)  ├─ [Parallel - different files]
-T010 (GitHub CI)   │
-T011 (setup script)┘
+T008 (Ruff config)    ┐
+T008a (pyright config)│
+T009 (pre-commit)     ├─ [Parallel - different files]
+T010 (GitHub CI)      │
+T011 (setup script)   ┘
 
 Contract Tests:
-T012 (Ruff contract)      ┐
-T013 (pre-commit contract)├─ [Parallel - different test files]
-T014 (GitHub contract)    │
-T015 (setup contract)     ┘
+T012 (Ruff contract)       ┐
+T012a (pyright contract)   │
+T013 (pre-commit contract) ├─ [Parallel - different test files]
+T014 (GitHub contract)     │
+T015 (setup contract)      ┘
 
 Application Phase:
-T008 → T016 (format) → T017 (auto-fix) → T018 (verify baseline) → T019 (manual fixes)
+T008, T008a → T016 (format) → T017 (auto-fix) → T018 (verify baseline) → T019 (manual fixes)
 
 T018 GATES → Integration Phase
 
 Integration Phase:
 T019 → T020 (install hooks)
-T008-T011 → T021 (contract tests)
+T008-T011, T008a → T021 (contract tests)
 T019, T021 → T022 (verify CI)
 
 Claude Auto-Fix Phase:
@@ -361,9 +389,10 @@ pytest tests/baseline/ -n auto  # Using pytest-xdist for parallel execution
 ```bash
 # All configuration files can be created in parallel - different files
 # Task 1: "Configure Ruff in pyproject.toml"
-# Task 2: "Create pre-commit configuration in .pre-commit-config.yaml"
-# Task 3: "Create GitHub Actions workflow in .github/workflows/ci.yml"
-# Task 4: "Create setup script in setup-dev.sh"
+# Task 2: "Configure pyright in pyproject.toml"
+# Task 3: "Create pre-commit configuration in .pre-commit-config.yaml"
+# Task 4: "Create GitHub Actions workflow in .github/workflows/ci.yml"
+# Task 5: "Create setup script in setup-dev.sh"
 ```
 
 ### Example 3: Contract Tests (T012-T015)
@@ -373,9 +402,10 @@ pytest tests/contract/ -n auto
 
 # Or launch as separate tasks:
 # Task 1: "Contract test for Ruff config in tests/contract/test_ruff_config.py"
-# Task 2: "Contract test for pre-commit config in tests/contract/test_precommit_config.py"
-# Task 3: "Contract test for GitHub Actions in tests/contract/test_github_actions.py"
-# Task 4: "Contract test for setup script in tests/contract/test_setup_script.py"
+# Task 2: "Contract test for pyright config in tests/contract/test_pyright_config.py"
+# Task 3: "Contract test for pre-commit config in tests/contract/test_precommit_config.py"
+# Task 4: "Contract test for GitHub Actions in tests/contract/test_github_actions.py"
+# Task 5: "Contract test for setup script in tests/contract/test_setup_script.py"
 ```
 
 ### Example 4: Claude Auto-Fix Components (T023-T024)
@@ -408,8 +438,8 @@ pytest tests/contract/ -n auto
 - **Commit frequently**: After each task or logical group of parallel tasks
 - **Test-first approach**: Baseline tests created and verified BEFORE any formatting changes
 - **Avoid**: Vague tasks, modifying same file in parallel tasks
-- **Performance target**: Pre-commit validation < 15 seconds, CI pipeline < 5 minutes
-- **Claude Auto-Fix**: Optional feature - developers can use `./scripts/claude-fix.sh` to automatically fix Ruff violations instead of manual copy-paste to AI
+- **Performance target**: Pre-commit validation < 15 seconds (including type checking), CI pipeline < 5 minutes
+- **Claude Auto-Fix**: Optional feature - developers can use `./scripts/claude-fix.sh` to automatically fix Ruff and pyright violations instead of manual copy-paste to AI
 
 ---
 
@@ -417,18 +447,18 @@ pytest tests/contract/ -n auto
 
 *GATE: Checked before marking tasks complete*
 
-- [x] All contracts have corresponding tests (4 contracts → 4 contract tests)
-- [x] All configuration entities have creation tasks (Ruff, pre-commit, CI, setup)
+- [x] All contracts have corresponding tests (5 contracts → 5 contract tests: Ruff, pyright, pre-commit, GitHub Actions, setup)
+- [x] All configuration entities have creation tasks (Ruff, pyright, pre-commit, CI, setup)
 - [x] All tests come before implementation (baseline tests → config → application)
 - [x] Parallel tasks truly independent (different files, verified)
 - [x] Each task specifies exact file path
 - [x] No task modifies same file as another [P] task
 - [x] Critical requirement met: Baseline tests BEFORE formatting changes (T007 gates T008-T014)
 - [x] Test-First Development: T003-T007 before T016-T019
-- [x] Claude Auto-Fix integration added: T023-T027 for automatic Ruff violation fixing
+- [x] Claude Auto-Fix integration added: T023-T027 for automatic Ruff and pyright violation fixing
 
 ---
 
 **Tasks Complete** ✅
-Total: 27 tasks (23 original + 4 Claude Auto-Fix + 1 updated documentation)
+Total: 29 tasks (23 original + 4 Claude Auto-Fix + 2 pyright additions + 1 updated documentation)
 Ready for Phase 3 execution. Begin with T001.

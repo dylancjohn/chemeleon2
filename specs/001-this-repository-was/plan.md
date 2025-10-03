@@ -31,16 +31,16 @@
 - Phase 3-4: Implementation execution (manual or via tools)
 
 ## Summary
-Establish development workflow standards for team collaboration by implementing code formatting (Ruff Format), comprehensive linting (Ruff with strict rules), pre-commit hooks (blocking commits on failures), and CI/CD validation (GitHub Actions). **Critical priority**: Create baseline tests FIRST to verify code functionality before and after applying formatting changes, ensuring no regressions during retroactive code reformatting.
+Establish development workflow standards for team collaboration by implementing code formatting (Ruff Format), comprehensive linting (Ruff with strict rules), static type checking (pyright in strict mode), pre-commit hooks (blocking commits on failures), and CI/CD validation (GitHub Actions). **Critical priority**: Create baseline tests FIRST to verify code functionality before and after applying formatting changes, ensuring no regressions during retroactive code reformatting.
 
 ## Technical Context
 **Language/Version**: Python 3.11+ (already specified in pyproject.toml)
-**Primary Dependencies**: Ruff (formatter + linter), pre-commit framework, pytest, GitHub Actions
+**Primary Dependencies**: Ruff (formatter + linter), pyright (type checker), pre-commit framework, pytest, GitHub Actions
 **Storage**: Configuration files (.toml, .yaml), git repository
 **Testing**: pytest (baseline tests before formatting, smoke tests for ML modules)
 **Target Platform**: Linux development environments, GitHub CI/CD runners
 **Project Type**: Single Python project (ML/scientific computing - VAE, LDM, RL modules)
-**Performance Goals**: Pre-commit validation < 15 seconds, CI/CD pipeline < 5 minutes
+**Performance Goals**: Pre-commit validation < 15 seconds (including type checking), CI/CD pipeline < 5 minutes
 **Constraints**: Must not break existing functionality during retroactive formatting
 **Scale/Scope**: ~45 Python files in src/, team collaboration workflow for 2+ developers
 **User-Specified Priority**: Create baseline tests FIRST to validate code works before and after formatting changes

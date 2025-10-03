@@ -50,6 +50,7 @@
 - Q: Should CI/CD pipeline automatically check formatting/linting? → A: GitHub Actions - PR checks required before merge
 - Q: What level of developer documentation should be provided? → A: Full documentation - CONTRIBUTING.md, setup guide, AI agent usage
 - Q: What line length and Python version should Ruff enforce? → A: 88 characters (Black default), Python 3.11+
+- Q: Should static type checking be enforced in the development workflow? → A: Yes, use pyright for static type analysis with strict mode
 
 ---
 
@@ -67,11 +68,11 @@ Development team members contribute code to the repository with consistent forma
 
 ### Acceptance Scenarios
 1. **Given** the development workflow standards are established, **When** applied to the entire codebase with coordination to avoid active branch conflicts, **Then** all existing Python, YAML, TOML, and JSON files are reformatted and brought into compliance
-2. **Given** a developer has modified Python source files, **When** they attempt to commit the changes, **Then** the code is automatically checked for formatting compliance and linting issues but tests are not executed
+2. **Given** a developer has modified Python source files, **When** they attempt to commit the changes, **Then** the code is automatically checked for formatting compliance, linting issues, and type correctness but tests are not executed
 3. **Given** code that violates formatting standards, **When** a developer attempts to commit, **Then** the system blocks the commit and prevents it from proceeding until issues are fixed manually
 4. **Given** pre-commit validation fails, **When** a developer requests an AI coding agent to fix the issues, **Then** the agent automatically corrects formatting and linting violations
 5. **Given** a new team member clones the repository, **When** they set up their development environment, **Then** all formatting and linting standards are automatically configured
-6. **Given** a developer opens a Pull Request, **When** GitHub Actions CI runs, **Then** formatting, linting, and all tests must pass before merge is allowed
+6. **Given** a developer opens a Pull Request, **When** GitHub Actions CI runs, **Then** formatting, linting, type checking, and all tests must pass before merge is allowed
 7. **Given** a new contributor wants to understand the workflow, **When** they read the documentation, **Then** CONTRIBUTING.md provides setup instructions, coding standards, and AI agent usage guidance
 8. **Given** properly formatted and linted code, **When** a developer commits changes, **Then** the commit proceeds without interruption
 9. **Given** multiple developers working on different features, **When** they merge their code, **Then** all code follows the same formatting and style standards
@@ -86,6 +87,8 @@ Development team members contribute code to the repository with consistent forma
 - How are CI/CD pipeline failures communicated to developers who are new to the workflow?
 - How should retroactive formatting be applied when there are multiple open PRs to avoid conflicts?
 - What happens when Ruff version differences between local and CI cause validation inconsistencies?
+- What happens when type checking fails but the code runs correctly at runtime (dynamic typing edge cases)?
+- How should pyright handle third-party libraries without type stubs?
 
 ## Requirements
 
@@ -108,11 +111,15 @@ Development team members contribute code to the repository with consistent forma
 - **FR-015**: System MUST provide comprehensive documentation including CONTRIBUTING.md with setup instructions, coding standards reference, Ruff rule explanations, troubleshooting guide, and AI agent usage examples
 - **FR-016**: GitHub Actions CI MUST block Pull Request merges when formatting, linting, or test failures are detected
 - **FR-017**: Retroactive formatting application MUST be coordinated to minimize merge conflicts with active development branches and open Pull Requests
+- **FR-018**: System MUST perform static type checking on Python source files before commits using pyright in strict mode
+- **FR-019**: Type checking MUST validate type annotations, detect type inconsistencies, and enforce complete type coverage for all function signatures
+- **FR-020**: System MUST complete type checking within pre-commit validation time budget (contributing to the 15-second limit)
 
 ### Key Entities
 - **Formatting Rules**: Black-compatible style definitions with 88-character line length, Python 3.11+ target, including code style, indentation, import ordering, and other stylistic elements enforced through Ruff formatter
 - **Linting Rules**: Strict quality standards enforced through Ruff linter, including syntax errors, undefined names, unused imports, naming conventions, docstring requirements, type hint coverage, cyclomatic complexity limits, and security vulnerability patterns
-- **Pre-commit Configuration**: Automated validation rules that execute before commits, including formatting and linting checks but explicitly excluding test execution
+- **Type Checking Rules**: Static type analysis configuration using pyright in strict mode, validating type annotations, type consistency, and complete type coverage for function signatures
+- **Pre-commit Configuration**: Automated validation rules that execute before commits, including formatting, linting, and type checking but explicitly excluding test execution
 - **CI/CD Pipeline**: GitHub Actions workflow configuration for automated validation of formatting, linting, and tests on Pull Requests with required status checks
 - **Developer Documentation**: Comprehensive guides including CONTRIBUTING.md for setup procedures, coding standards reference, troubleshooting guide, and AI agent integration examples
 - **Developer Environment Setup**: Configuration files and instructions enabling consistent development environment across team members
