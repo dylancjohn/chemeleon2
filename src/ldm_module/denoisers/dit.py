@@ -266,7 +266,8 @@ class DiT(nn.Module):
 
     def forward_with_cfg(self, x, t, mask, y, cfg_scale):
         """Forward pass of DiT, but also batches the unconditional forward pass for classifier-free
-        guidance."""
+        guidance.
+        """
         half_x = x[: x.shape[0] // 2]
         combined_x = torch.cat([half_x, half_x], dim=0)
         model_out = self.forward(combined_x, t, mask, y)

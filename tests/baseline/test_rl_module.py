@@ -11,9 +11,9 @@ import torch
 import torch.nn as nn
 from omegaconf import OmegaConf
 
-from src.rl_module.rl_module import RLModule
-from src.rl_module.reward import ReinforceReward
 from src.paths import DEFAULT_LDM_CKPT_PATH
+from src.rl_module.reward import ReinforceReward
+from src.rl_module.rl_module import RLModule
 
 
 @pytest.fixture(scope="module")

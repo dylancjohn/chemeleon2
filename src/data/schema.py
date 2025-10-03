@@ -1,9 +1,9 @@
+import torch
 from ase import Atoms
 from pymatgen.core import Structure
-
-import torch
 from torch import Tensor
-from torch_geometric.data import Data, Batch
+from torch_geometric.data import Batch, Data
+
 from src.data.dataset_util import batch_to_atoms_list, batch_to_structure_list
 
 

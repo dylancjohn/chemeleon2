@@ -114,7 +114,6 @@ def _random_rotation_matrix(validate: bool = False, **tensor_kwargs) -> torch.Te
     Returns:
         A tensor of shape (3, 3) representing the rotation matrix.
     """
-
     # Generate a random quaternion
     q = torch.rand(4, **tensor_kwargs)
     q /= torch.linalg.norm(q)

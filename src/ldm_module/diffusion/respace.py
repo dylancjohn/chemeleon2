@@ -11,8 +11,7 @@ from .gaussian_diffusion import GaussianDiffusion
 
 
 def space_timesteps(num_timesteps, section_counts):
-    """
-    Create a list of timesteps to use from an original diffusion process,
+    """Create a list of timesteps to use from an original diffusion process,
     given the number of timesteps we want to take from equally-sized portions
     of the original process.
     For example, if there's 300 timesteps and the section counts are [10,15,20]
@@ -64,8 +63,7 @@ def space_timesteps(num_timesteps, section_counts):
 
 
 class SpacedDiffusion(GaussianDiffusion):
-    """
-    A diffusion process which can skip steps in a base diffusion process.
+    """A diffusion process which can skip steps in a base diffusion process.
     :param use_timesteps: a collection (sequence or set) of timesteps from the
                           original diffusion process to retain.
     :param kwargs: the kwargs to create the base diffusion process.

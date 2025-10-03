@@ -1,18 +1,17 @@
 # https://github.com/snu-micc/Synthesizability-PU-CGCNN
-import os
-import json
 import argparse
+import json
+import os
 from pathlib import Path
-import requests
 
-from tqdm import tqdm
 import numpy as np
-from pymatgen.core import Structure
-
+import requests
 import torch
 import torch.nn as nn
+from pymatgen.core import Structure
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 BENCHMARK_DIR = Path(__file__).resolve().parent.parent.parent / "benchmarks"
 CLSCORE_MODEL_DIR = BENCHMARK_DIR / "cl_score_trained_models"
@@ -23,8 +22,7 @@ num_models = 100
 
 
 def download_trained_models():
-    """
-    Download trained models for CLScore from the GitHub repository.
+    """Download trained models for CLScore from the GitHub repository.
     """
     if not CLSCORE_MODEL_DIR.exists():
         CLSCORE_MODEL_DIR.mkdir(parents=True, exist_ok=True)
@@ -54,8 +52,7 @@ def download_trained_models():
 
 
 def download_atom_init_file():
-    """
-    Download the atom initialization file for CLScore.
+    """Download the atom initialization file for CLScore.
     """
     if not os.path.exists(ATOM_INIT_FILE):
         print(f"Downloading atom initialization file to {ATOM_INIT_FILE}...")
@@ -87,7 +84,7 @@ class GaussianDistance:
         return np.exp(-((distances[..., np.newaxis] - self.filter) ** 2) / self.var**2)
 
 
-class AtomInitializer(object):
+class AtomInitializer:
     def __init__(self, atom_types):
         self.atom_types = set(atom_types)
         self._embedding = {}
@@ -267,7 +264,7 @@ class CrystalGraphConvNet(nn.Module):
         if self.classification:
             crys_fea = self.dropout(crys_fea)
         if hasattr(self, "fcs") and hasattr(self, "softpluses"):
-            for fc, softplus in zip(self.fcs, self.softpluses):
+            for fc, softplus in zip(self.fcs, self.softpluses, strict=False):
                 crys_fea = softplus(fc(crys_fea))
 
         self.final_fea = crys_fea

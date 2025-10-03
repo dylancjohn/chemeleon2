@@ -2,14 +2,14 @@ import enum
 from collections import defaultdict
 from functools import partial
 
-import numpy as np
-from pymatgen.core import Composition
 import amd
+import numpy as np
 import torch
+from pymatgen.core import Composition
 
 from src.data.schema import CrystalBatch
-from src.utils.metrics import Metrics, structures_to_amd
 from src.utils.featurizer import featurize
+from src.utils.metrics import Metrics, structures_to_amd
 from src.vae_module.predictor_module import PredictorModule
 
 
@@ -217,7 +217,7 @@ def reward_csp(batch_gen: CrystalBatch, m: Metrics) -> torch.Tensor:
     r_composition_matching = torch.tensor(
         [
             gen_comp == ref_comp
-            for gen_comp, ref_comp in zip(gen_compositions, ref_compositions)
+            for gen_comp, ref_comp in zip(gen_compositions, ref_compositions, strict=False)
         ]
     )
 

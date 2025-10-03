@@ -1,13 +1,13 @@
 import os
 import warnings
 from collections.abc import Iterable
-import h5py
-from tqdm import tqdm
 
+import h5py
 import pandas as pd
 import torch
-from pymatgen.core import Structure, Lattice
-from torch_geometric.data import InMemoryDataset, Data
+from pymatgen.core import Lattice, Structure
+from torch_geometric.data import Data, InMemoryDataset
+from tqdm import tqdm
 
 from src.data.dataset_util import pmg_structure_to_pyg_data
 
@@ -15,8 +15,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="pymatgen")
 
 
 class MPDataset(InMemoryDataset):
-    """
-    InMemoryDataset for Materials Project data that caches processed graphs.
+    """InMemoryDataset for Materials Project data that caches processed graphs.
     """
 
     def __init__(

@@ -1,30 +1,27 @@
+import gzip
 import os
-import tempfile
+import pickle
 import shutil
+import tempfile
 import warnings
 from collections import defaultdict
-from pathlib import Path
-import gzip
-import pickle
 from dataclasses import dataclass, field
+from pathlib import Path
 
-
-from tqdm import tqdm
+import amd
 import numpy as np
 import pandas as pd
-import amd
-from scipy.linalg import sqrtm
-from ase.calculators.calculator import Calculator
-from pymatgen.analysis.structure_matcher import StructureMatcher
-from pymatgen.analysis.phase_diagram import PatchedPhaseDiagram, PhaseDiagram, PDEntry
-from pymatgen.core import Structure
-from monty.serialization import loadfn
-
-
 import torch
-from src.utils.featurizer import featurize
-from src.utils.cl_score import compute_clscore
+from ase.calculators.calculator import Calculator
+from monty.serialization import loadfn
+from pymatgen.analysis.phase_diagram import PatchedPhaseDiagram, PDEntry, PhaseDiagram
+from pymatgen.analysis.structure_matcher import StructureMatcher
+from pymatgen.core import Structure
+from scipy.linalg import sqrtm
+from tqdm import tqdm
 
+from src.utils.cl_score import compute_clscore
+from src.utils.featurizer import featurize
 
 BENCHMARK_DIR = Path(__file__).resolve().parent.parent.parent / "benchmarks"
 PATH_REFERENCE_STRUCTURES = {
@@ -186,7 +183,7 @@ class Metrics:
     use_cuda : bool, default=True
         Whether to use CUDA for computations. If False, uses CPU.
 
-    Attributes
+    Attributes:
     ----------
     reference_structures : list[Structure]
         List of reference structures loaded from the specified dataset
@@ -204,7 +201,7 @@ class Metrics:
         Dictionary to store results of computed metrics
 
 
-    Methods
+    Methods:
     -------
     register_metric(name, func=None)
         Register a metric for calculation
@@ -215,7 +212,7 @@ class Metrics:
     to_csv(path)
         Save results to a CSV file
 
-    Example
+    Example:
     -------
     >>> from pymatgen.core import Structure
     >>> # Assume we have a list of generated structures
@@ -426,8 +423,7 @@ def calculate_energy_above_hull(
 def frechet_distance(
     gen_embeddings: torch.Tensor, ref_embeddings: torch.Tensor
 ) -> float:
-    """
-    Compute Fréchet distance between two sets of embedding vectors.
+    """Compute Fréchet distance between two sets of embedding vectors.
 
     Args:
         gen_embeddings: Reference embeddings tensor of shape (M, L)

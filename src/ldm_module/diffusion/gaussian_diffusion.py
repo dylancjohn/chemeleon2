@@ -250,9 +250,8 @@ class GaussianDiffusion:
         )
 
     def q_posterior_mean_variance(self, x_start, x_t, t):
-        """
-        Compute the mean and variance of the diffusion posterior:
-            q(x_{t-1} | x_t, x_0)
+        """Compute the mean and variance of the diffusion posterior:
+        q(x_{t-1} | x_t, x_0)
         """
         assert x_start.shape == x_t.shape
         posterior_mean = (

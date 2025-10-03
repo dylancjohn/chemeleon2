@@ -1,8 +1,8 @@
 from enum import Enum
-from pymatgen.core import Composition, Element
 
 import torch
 import torch.nn as nn
+from pymatgen.core import Composition, Element
 
 
 class ConditionType(Enum):

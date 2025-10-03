@@ -1,9 +1,8 @@
 import hydra
-from omegaconf import DictConfig, OmegaConf
-
 import lightning as L
 from lightning import Callback, LightningDataModule, LightningModule, Trainer
 from lightning.pytorch.loggers import Logger, WandbLogger
+from omegaconf import DictConfig, OmegaConf
 
 from src.utils.instantiators import instantiate_callbacks, instantiate_loggers
 

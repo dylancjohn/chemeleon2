@@ -1,11 +1,10 @@
 from pathlib import Path
-from fire import Fire
 
 import numpy as np
-from pymatgen.core import Structure, Composition
-from monty.serialization import dumpfn
-
 import torch
+from fire import Fire
+from monty.serialization import dumpfn
+from pymatgen.core import Composition, Structure
 
 from src.data.num_atom_distributions import NUM_ATOM_DISTRIBUTIONS
 from src.data.schema import create_empty_batch

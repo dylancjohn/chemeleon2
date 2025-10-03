@@ -1,10 +1,8 @@
-"""
-modified from
+"""modified from
 https://github.com/facebookresearch/all-atom-diffusion-transformer
 """
 
 import math
-from typing import Dict
 
 import torch
 from torch import nn
@@ -100,19 +98,18 @@ class TransformerEncoder(nn.Module):
     def hidden_dim(self):
         return self.d_model
 
-    def forward(self, batch: Dict[str, torch.Tensor]) -> Dict[str, torch.Tensor]:
-        """
-        Args:
-            batch: Data object with the following attributes:
-                atom_types (torch.Tensor): Atomic numbers of atoms in the batch
-                pos (torch.Tensor): Cartesian coordinates of atoms in the batch
-                frac_coords (torch.Tensor): Fractional coordinates of atoms in the batch
-                cell (torch.Tensor): Lattice vectors of the unit cell
-                lattices (torch.Tensor): Lattice parameters of the unit cell (lengths and angles)
-                lengths (torch.Tensor): Lengths of the lattice vectors
-                angles (torch.Tensor): Angles between the lattice vectors
-                num_atoms (torch.Tensor): Number of atoms in the batch
-                batch (torch.Tensor): Batch index for each atom
+    def forward(self, batch: dict[str, torch.Tensor]) -> dict[str, torch.Tensor]:
+        """Args:
+        batch: Data object with the following attributes:
+            atom_types (torch.Tensor): Atomic numbers of atoms in the batch
+            pos (torch.Tensor): Cartesian coordinates of atoms in the batch
+            frac_coords (torch.Tensor): Fractional coordinates of atoms in the batch
+            cell (torch.Tensor): Lattice vectors of the unit cell
+            lattices (torch.Tensor): Lattice parameters of the unit cell (lengths and angles)
+            lengths (torch.Tensor): Lengths of the lattice vectors
+            angles (torch.Tensor): Angles between the lattice vectors
+            num_atoms (torch.Tensor): Number of atoms in the batch
+            batch (torch.Tensor): Batch index for each atom
         """
         x = self.atom_type_embedder(batch.atom_types)
         x += self.lattices_embedder(batch.lattices.view(-1, 9))[batch.batch]

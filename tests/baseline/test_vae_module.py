@@ -11,9 +11,9 @@ import torch
 import torch.nn as nn
 from omegaconf import OmegaConf
 
-from src.vae_module.vae_module import VAEModule
-from src.vae_module.encoders.transformer import TransformerEncoder
 from src.vae_module.decoders.transformer import TransformerDecoder
+from src.vae_module.encoders.transformer import TransformerEncoder
+from src.vae_module.vae_module import VAEModule
 
 
 @pytest.fixture(scope="module")

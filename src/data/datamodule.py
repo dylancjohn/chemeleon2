@@ -1,5 +1,5 @@
-from torch_geometric.loader import DataLoader
 from lightning import LightningDataModule
+from torch_geometric.loader import DataLoader
 
 from src.data.components.mp_dataset import MPDataset
 from src.data.schema import CrystalBatch

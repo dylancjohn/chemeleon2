@@ -1,5 +1,4 @@
-"""
-adapted from
+"""adapted from
 https://github.com/facebookresearch/all-atom-diffusion-transformer
 """
 
@@ -90,13 +89,12 @@ class TransformerDecoder(nn.Module):
     def forward(
         self, encoded_batch: dict[str, torch.Tensor]
     ) -> dict[str, torch.Tensor]:
-        """
-        Args:
-            encoded_batch: Dict with the following attributes:
-                x (torch.Tensor): Encoded batch of atomic environments
-                num_atoms (torch.Tensor): Number of atoms in each molecular environment
-                batch (torch.Tensor): Batch index for each atom
-                token_idx (torch.Tensor): Token index for each atom
+        """Args:
+        encoded_batch: Dict with the following attributes:
+            x (torch.Tensor): Encoded batch of atomic environments
+            num_atoms (torch.Tensor): Number of atoms in each molecular environment
+            batch (torch.Tensor): Batch index for each atom
+            token_idx (torch.Tensor): Token index for each atom
         """
         x = encoded_batch["x"]
 

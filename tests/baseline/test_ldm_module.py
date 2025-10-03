@@ -11,8 +11,8 @@ import torch
 import torch.nn as nn
 from omegaconf import OmegaConf
 
-from src.ldm_module.ldm_module import LDMModule
 from src.ldm_module.denoisers.dit import DiT
+from src.ldm_module.ldm_module import LDMModule
 from src.paths import DEFAULT_VAE_CKPT_PATH
 
 

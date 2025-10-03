@@ -1,13 +1,13 @@
 import math
-from functools import partial
 from collections import defaultdict
+from functools import partial
 
 import torch
 from lightning import LightningModule
 
 from src.data.schema import CrystalBatch
-from src.ldm_module.ldm_module import LDMModule
 from src.ldm_module.diffusion import create_diffusion
+from src.ldm_module.ldm_module import LDMModule
 
 
 class RLModule(LightningModule):

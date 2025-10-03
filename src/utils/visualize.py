@@ -1,13 +1,11 @@
-from pathlib import Path
 from copy import deepcopy
-
-import plotly.graph_objects as go
+from pathlib import Path
 
 import numpy as np
+import plotly.graph_objects as go
 from ase.atoms import Atoms
-from ase.data.colors import jmol_colors
 from ase.data import covalent_radii
-
+from ase.data.colors import jmol_colors
 
 # update the colors and radii for the dummy atom
 jmol_colors[0] = (0.5, 0.5, 0.5)  # X
@@ -77,11 +75,11 @@ class Visualizer:
         species = atoms.get_chemical_symbols()
         atomic_colors = [jmol_colors[n] for n in atoms.numbers]
         atomic_radii = [covalent_radii[n] * self.atomic_size for n in atoms.numbers]
-        x, y, z = zip(*positions)
+        x, y, z = zip(*positions, strict=False)
 
         fig = go.Figure()
         for xi, yi, zi, color, radius, sp in zip(
-            x, y, z, atomic_colors, atomic_radii, species
+            x, y, z, atomic_colors, atomic_radii, species, strict=False
         ):
             color_rgb = f"rgb{tuple(int(c * 255) for c in color)}"
             sphere_x, sphere_y, sphere_z = self._create_sphere(
@@ -122,7 +120,7 @@ class Visualizer:
         ]
         line_traces = []
         for line in lines:
-            x_values, y_values, z_values = zip(*line)
+            x_values, y_values, z_values = zip(*line, strict=False)
             line_trace = go.Scatter3d(
                 x=x_values,
                 y=y_values,

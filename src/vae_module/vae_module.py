@@ -1,5 +1,4 @@
-"""
-modified from
+"""modified from
 https://github.com/facebookresearch/all-atom-diffusion-transformer
 """
 
@@ -11,9 +10,9 @@ from lightning import LightningModule
 from pymatgen.analysis.structure_matcher import StructureMatcher
 from pymatgen.core import Structure
 
-from src.data.schema import CrystalBatch
-from src.data.dataset_util import lattice_params_to_matrix_torch
 from src.data.data_augmentation import apply_augmentation, apply_noise
+from src.data.dataset_util import lattice_params_to_matrix_torch
+from src.data.schema import CrystalBatch
 from src.utils.timeout import timeout
 
 
@@ -271,7 +270,7 @@ class VAEModule(LightningModule):
         # Structure matching
         origin_structures = batch.to_structure()
         structure_matching = 0
-        for orig, rec in zip(origin_structures, rec_structures):
+        for orig, rec in zip(origin_structures, rec_structures, strict=False):
             cond = np.linalg.cond(rec.lattice.matrix)
             if cond > 1e3:
                 continue

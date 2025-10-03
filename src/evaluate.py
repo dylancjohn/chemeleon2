@@ -2,8 +2,8 @@ from pathlib import Path
 
 import fire
 from monty.serialization import loadfn
-from pymatgen.core import Structure
 from pymatgen.analysis.structure_matcher import StructureMatcher
+from pymatgen.core import Structure
 
 from src.sample import sample
 from src.utils.metrics import Metrics

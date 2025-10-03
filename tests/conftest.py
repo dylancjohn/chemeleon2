@@ -5,9 +5,9 @@ and unit tests. Fixtures include device detection, dummy crystal data,
 and reproducibility helpers for PyTorch Lightning models.
 """
 
+import numpy as np
 import pytest
 import torch
-import numpy as np
 
 
 @pytest.fixture(scope="session")
@@ -54,9 +54,10 @@ def dummy_crystal_batch(device):
         Returns:
             CrystalBatch object ready for model testing
         """
-        from src.data.schema import CrystalBatch
-        from src.data.num_atom_distributions import NUM_ATOM_DISTRIBUTIONS
         from torch_geometric.data import Data
+
+        from src.data.num_atom_distributions import NUM_ATOM_DISTRIBUTIONS
+        from src.data.schema import CrystalBatch
 
         distribution = NUM_ATOM_DISTRIBUTIONS[num_atom_distribution]
         num_atoms = np.random.choice(

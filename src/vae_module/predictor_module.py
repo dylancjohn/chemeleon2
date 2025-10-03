@@ -3,8 +3,8 @@ import torch.nn as nn
 from lightning import LightningModule
 
 from src.data.schema import CrystalBatch
-from src.vae_module.vae_module import VAEModule
 from src.utils.scatter import scatter_mean, scatter_sum
+from src.vae_module.vae_module import VAEModule
 
 
 class PredictorModule(LightningModule):
