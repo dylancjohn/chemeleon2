@@ -1,5 +1,5 @@
 """modified from
-https://github.com/facebookresearch/all-atom-diffusion-transformer
+https://github.com/facebookresearch/all-atom-diffusion-transformer.
 """
 
 import numpy as np
@@ -17,6 +17,8 @@ from src.utils.timeout import timeout
 
 
 class VAEModule(LightningModule):
+    """Variational Autoencoder module for crystal structure encoding."""
+
     def __init__(
         self,
         encoder: torch.nn.Module,
@@ -192,7 +194,7 @@ class VAEModule(LightningModule):
         res: dict,
         split: str,
         batch_size: int | None = None,
-    ):
+    ) -> None:
         for k, v in res.items():
             self.log(
                 f"{split}/{k}",
@@ -294,7 +296,7 @@ class DiagonalGaussianDistribution:
     which are of shape (N, d) instead of (B, H, W, d) for 2D images.
     """
 
-    def __init__(self, parameters, deterministic=False):
+    def __init__(self, parameters, deterministic=False) -> None:
         self.parameters = parameters
         self.mean, self.logvar = torch.chunk(
             parameters, 2, dim=-1
@@ -335,5 +337,5 @@ class DiagonalGaussianDistribution:
     def mode(self):
         return self.mean
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"DiagonalGaussianDistribution(mean={self.mean}, logvar={self.logvar})"

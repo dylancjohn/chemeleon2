@@ -63,7 +63,7 @@ def rl_model(device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_rl_instantiation(rl_model, device):
+def test_rl_instantiation(rl_model, device) -> None:
     """Test RL agent instantiation.
 
     Verifies that the RL module can be instantiated with
@@ -82,7 +82,7 @@ def test_rl_instantiation(rl_model, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_rl_policy_forward_pass(rl_model, dummy_crystal_batch, device):
+def test_rl_policy_forward_pass(rl_model, dummy_crystal_batch, device) -> None:
     """Test RL policy forward pass (rollout).
 
     Verifies that the rollout produces outputs with expected
@@ -121,7 +121,7 @@ def test_rl_policy_forward_pass(rl_model, dummy_crystal_batch, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_rl_reward_computation(rl_model, dummy_crystal_batch, device):
+def test_rl_reward_computation(rl_model, dummy_crystal_batch, device) -> None:
     """Test RL reward computation.
 
     Verifies that reward calculation works and produces
@@ -151,7 +151,7 @@ def test_rl_reward_computation(rl_model, dummy_crystal_batch, device):
 @pytest.mark.slow
 def test_rl_overfit_single_batch(
     rl_model, dummy_crystal_batch, seed_everything, device
-):
+) -> None:
     """Test RL agent can overfit on a single batch.
 
     Critical validation test following Karpathy's principle:
@@ -174,7 +174,7 @@ def test_rl_overfit_single_batch(
     with torch.no_grad():
         batch_gen_initial, _ = rl_model.rollout(batch)
         initial_rewards, _ = rl_model.compute_rewards(batch_gen_initial)
-        initial_reward = initial_rewards.mean().item()
+        initial_rewards.mean().item()
 
     # Perform multiple rollouts to verify consistency
     # Note: Full RL training requires Lightning Trainer with manual_backward

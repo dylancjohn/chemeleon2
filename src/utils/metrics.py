@@ -1,3 +1,5 @@
+"""Evaluation metrics for crystal structure generation."""
+
 import gzip
 import os
 import pickle
@@ -371,7 +373,7 @@ class Metrics:
             df["cif"] = [s.to(fmt="cif") for s in self._gen_structures]
         return df
 
-    def to_csv(self, path: str):
+    def to_csv(self, path: str) -> None:
         """Save results to a CSV file."""
         p = Path(path)
         p.parent.mkdir(parents=True, exist_ok=True)

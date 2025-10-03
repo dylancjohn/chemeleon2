@@ -1,3 +1,9 @@
+"""Evaluation script for generated crystal structures.
+
+This script evaluates generated structures against reference datasets using
+various metrics including structure matching, stability, and coverage.
+"""
+
 from pathlib import Path
 
 import fire
@@ -23,7 +29,7 @@ def evaluate(
     angle_tol: float = 5.0,
     stability_threshold: float = 0.1,
     **sample_configs: dict,
-):
+) -> None:
     if model_path is not None:
         print(f"Using model from {model_path} for sampling structures.")
         sample(

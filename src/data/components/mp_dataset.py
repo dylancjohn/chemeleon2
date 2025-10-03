@@ -1,6 +1,12 @@
+"""Materials Project dataset implementation for crystal structure data.
+
+This module provides PyTorch Geometric InMemoryDataset for loading and
+processing Materials Project crystal structures with optional MACE features.
+"""
+
 import os
 import warnings
-from collections.abc import Iterable
+from collections.abc import Callable, Iterable
 
 import h5py
 import pandas as pd
@@ -15,8 +21,7 @@ warnings.filterwarnings("ignore", category=UserWarning, module="pymatgen")
 
 
 class MPDataset(InMemoryDataset):
-    """InMemoryDataset for Materials Project data that caches processed graphs.
-    """
+    """InMemoryDataset for Materials Project data that caches processed graphs."""
 
     def __init__(
         self,
@@ -24,9 +29,19 @@ class MPDataset(InMemoryDataset):
         split: str,
         target_condition: str | None = None,
         mace_features: bool = False,
-        transform=None,
-        pre_transform=None,
-    ):
+        transform: Callable[[Data], Data] | None = None,
+        pre_transform: Callable[[Data], Data] | None = None,
+    ) -> None:
+        """Initialize Materials Project dataset.
+
+        Args:
+            root: Root directory containing dataset files.
+            split: Dataset split name (train/val/test).
+            target_condition: Optional target property for conditioning.
+            mace_features: Whether to load MACE structural features.
+            transform: Optional transform to apply on-the-fly.
+            pre_transform: Optional transform to apply during processing.
+        """
         self.split = split
         self.target_condition = target_condition
         self.mace_features = mace_features
@@ -53,21 +68,26 @@ class MPDataset(InMemoryDataset):
 
     @property
     def raw_file_names(self) -> list[str]:
+        """Return list of raw file names."""
         return [f"{self.split}.csv"]
 
     @property
     def raw_paths(self) -> list[str]:
+        """Return full paths to raw files."""
         return [os.path.join(self.root, f) for f in self.raw_file_names]
 
     @property
     def processed_file_names(self) -> list[str]:
+        """Return list of processed file names."""
         return [f"{self.split}.pt"]
 
-    def download(self):
+    def download(self) -> None:
+        """Download dataset (placeholder - data should be manually placed)."""
         # download https://raw.githubusercontent.com/txie-93/cdvae/main/data/mp_20
         return
 
-    def process(self):
+    def process(self) -> None:
+        """Process raw data files into PyG Data objects."""
         data_list: list[Data] = []
         for _, row in tqdm(
             self.df.iterrows(),
@@ -102,16 +122,28 @@ class MPDataset(InMemoryDataset):
         data, slices = self.collate(data_list)
         torch.save((data, slices), self.processed_paths[0])
 
-    def get(self, idx: int):
+    def get(self, idx: int) -> Data:
+        """Get data object by index with optional conditions and MACE features.
+
+        Args:
+            idx: Index of the data sample.
+
+        Returns:
+            PyG Data object with structure and optional conditions/features.
+        """
         data = super().get(idx)
 
         # Dynamically attach condition if specified
         if self.target_condition is not None:
             if isinstance(self.target_condition, str):  # single condition
-                assert self.target_condition in self.df.columns
+                if self.target_condition not in self.df.columns:
+                    msg = f"Condition {self.target_condition} not in dataframe columns"
+                    raise ValueError(msg)
                 y = {self.target_condition: self.df.loc[idx, self.target_condition]}
             elif isinstance(self.target_condition, Iterable):  # multiple conditions
-                assert all(t in self.df.columns for t in self.target_condition)
+                if not all(t in self.df.columns for t in self.target_condition):
+                    msg = "Not all conditions found in dataframe columns"
+                    raise ValueError(msg)
                 y = {t: self.df.loc[idx, t] for t in self.target_condition}
             else:
                 raise ValueError("target_condition must be str or iterable[str]")

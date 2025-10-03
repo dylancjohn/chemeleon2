@@ -1,3 +1,9 @@
+"""Timestep sampling strategies for diffusion model training.
+
+This module provides various timestep sampling strategies including uniform sampling
+and loss-aware importance sampling to reduce training variance.
+"""
+
 # Adatped from https://github.com/facebookresearch/DiT
 # Modified from OpenAI's diffusion repos
 #     GLIDE: https://github.com/openai/glide-text2im/blob/main/glide_text2im/gaussian_diffusion.py
@@ -57,7 +63,9 @@ class ScheduleSampler(ABC):
 
 
 class UniformSampler(ScheduleSampler):
-    def __init__(self, diffusion):
+    """Uniform timestep sampler for diffusion training."""
+
+    def __init__(self, diffusion) -> None:
         self.diffusion = diffusion
         self._weights = np.ones([diffusion.num_timesteps])
 
@@ -66,7 +74,9 @@ class UniformSampler(ScheduleSampler):
 
 
 class LossAwareSampler(ScheduleSampler):
-    def update_with_local_losses(self, local_ts, local_losses):
+    """Low-discrepancy timestep sampler using quasi-random sequences."""
+
+    def update_with_local_losses(self, local_ts, local_losses) -> None:
         """Update the reweighting using losses from a model.
         Call this method from each rank with a batch of timesteps and the
         corresponding losses for each of those timesteps.
@@ -113,7 +123,9 @@ class LossAwareSampler(ScheduleSampler):
 
 
 class LossSecondMomentResampler(LossAwareSampler):
-    def __init__(self, diffusion, history_per_term=10, uniform_prob=0.001):
+    """Loss-aware timestep sampler that prioritizes difficult timesteps."""
+
+    def __init__(self, diffusion, history_per_term=10, uniform_prob=0.001) -> None:
         self.diffusion = diffusion
         self.history_per_term = history_per_term
         self.uniform_prob = uniform_prob
@@ -131,7 +143,7 @@ class LossSecondMomentResampler(LossAwareSampler):
         weights += self.uniform_prob / len(weights)
         return weights
 
-    def update_with_all_losses(self, ts, losses):
+    def update_with_all_losses(self, ts, losses) -> None:
         for t, loss in zip(ts, losses, strict=False):
             if self._loss_counts[t] == self.history_per_term:
                 # Shift out the oldest loss term.

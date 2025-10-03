@@ -1,3 +1,5 @@
+"""Visualization utilities for crystal structures using Plotly."""
+
 from copy import deepcopy
 from pathlib import Path
 
@@ -14,6 +16,8 @@ covalent_radii[0] = 0.5
 
 
 class Visualizer:
+    """Atom and bond visualization configuration for crystal structures."""
+
     def __init__(
         self,
         atoms_list: list[Atoms] = None,
@@ -21,7 +25,7 @@ class Visualizer:
         opacity: float = 1,
         resolution: int = 19,
         layout_kwargs: dict = None,
-    ):
+    ) -> None:
         if atoms_list is None:
             raise ValueError("atoms_list must be provided.")
         self.atoms_list = atoms_list
@@ -205,7 +209,7 @@ class Visualizer:
 
         return self.fig
 
-    def save_html(self, save_path: str = "trajectory.html"):
+    def save_html(self, save_path: str = "trajectory.html") -> None:
         save_path = Path(save_path)
         if self.fig is None:
             raise ValueError(

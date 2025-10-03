@@ -1,3 +1,9 @@
+"""Utility functions for Gaussian diffusion processes.
+
+This module provides helper functions for computing KL divergence, log likelihoods,
+and other utilities needed for diffusion model training and sampling.
+"""
+
 # Adatped from https://github.com/facebookresearch/DiT
 # Modified from OpenAI's diffusion repos
 #     GLIDE: https://github.com/openai/glide-text2im/blob/main/glide_text2im/gaussian_diffusion.py

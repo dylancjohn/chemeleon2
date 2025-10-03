@@ -1,4 +1,8 @@
-# https://github.com/jiaor17/DiffCSP
+"""CSPNet encoder architecture for crystal structure encoding.
+
+Adapted from https://github.com/jiaor17/DiffCSP
+"""
+
 import math
 
 import torch
@@ -11,7 +15,7 @@ from src.utils.scatter import scatter_mean
 class SinusoidalTimeEmbeddings(nn.Module):
     """Attention is all you need."""
 
-    def __init__(self, dim):
+    def __init__(self, dim) -> None:
         super().__init__()
         self.dim = dim
 
@@ -28,7 +32,7 @@ class SinusoidalTimeEmbeddings(nn.Module):
 class SinusoidsEmbedding(nn.Module):
     """Embedding for periodic distance features."""
 
-    def __init__(self, n_frequencies=10, n_space=3):
+    def __init__(self, n_frequencies=10, n_space=3) -> None:
         super().__init__()
         self.n_frequencies = n_frequencies
         self.n_space = n_space
@@ -47,8 +51,8 @@ class CSPLayer(nn.Module):
 
     def __init__(
         self, hidden_dim=128, act_fn=nn.SiLU(), dis_emb=None, ln=False, ip=True
-    ):
-        super(CSPLayer, self).__init__()
+    ) -> None:
+        super().__init__()
 
         self.dis_dim = 3
         self.dis_emb = dis_emb
@@ -128,7 +132,7 @@ class CSPLayer(nn.Module):
 
 
 class CSPNet(nn.Module):
-    """CSPNet model, adopted from DiffCSP
+    """CSPNet model, adopted from DiffCSP.
 
     - edge_style = fc
     """
@@ -142,7 +146,7 @@ class CSPNet(nn.Module):
         ln=True,
         ip=True,
         smooth=False,
-    ):
+    ) -> None:
         super().__init__()
         self.hidden_dim = hidden_dim
 

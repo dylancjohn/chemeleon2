@@ -1,3 +1,9 @@
+"""Custom batch schema for crystal structure data.
+
+This module defines CrystalBatch, an extension of PyTorch Geometric's Batch class
+with additional methods for crystal structure manipulation and conversion.
+"""
+
 import torch
 from ase import Atoms
 from pymatgen.core import Structure
@@ -8,6 +14,8 @@ from src.data.dataset_util import batch_to_atoms_list, batch_to_structure_list
 
 
 class CrystalBatch(Batch):
+    """Custom Batch class for crystal structure data."""
+
     def add(self, **kwargs) -> None:
         for key, tensor in kwargs.items():
             if not isinstance(key, str):
@@ -64,7 +72,7 @@ class CrystalBatch(Batch):
 
     @classmethod
     def collate(cls, data_list: list[any]) -> "CrystalBatch":
-        batch = super(CrystalBatch, cls).from_data_list(data_list)
+        batch = super().from_data_list(data_list)
         batch.__class__ = cls
         return batch
 

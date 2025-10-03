@@ -1,3 +1,5 @@
+"""Property predictor PyTorch Lightning module."""
+
 import torch
 import torch.nn as nn
 from lightning import LightningModule
@@ -8,6 +10,8 @@ from src.vae_module.vae_module import VAEModule
 
 
 class PredictorModule(LightningModule):
+    """Property predictor module for crystal structures."""
+
     def __init__(
         self,
         vae: VAEModule,
@@ -16,7 +20,7 @@ class PredictorModule(LightningModule):
         use_encoder_features: bool,
         optimizer: torch.optim.Optimizer,
         scheduler: torch.optim.lr_scheduler,
-    ):
+    ) -> None:
         super().__init__()
         self.save_hyperparameters(logger=False)
         self.vae = vae
@@ -140,7 +144,7 @@ class PredictorModule(LightningModule):
         res: dict,
         split: str,
         batch_size: int | None = None,
-    ):
+    ) -> None:
         for k, v in res.items():
             if isinstance(v, torch.Tensor):
                 v = v.mean()

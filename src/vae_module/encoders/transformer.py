@@ -1,5 +1,5 @@
 """modified from
-https://github.com/facebookresearch/all-atom-diffusion-transformer
+https://github.com/facebookresearch/all-atom-diffusion-transformer.
 """
 
 import math
@@ -57,7 +57,7 @@ class TransformerEncoder(nn.Module):
         norm_first: bool = True,
         bias: bool = True,
         num_layers: int = 6,
-    ):
+    ) -> None:
         super().__init__()
 
         self.max_num_elements = max_num_elements
@@ -109,7 +109,7 @@ class TransformerEncoder(nn.Module):
             lengths (torch.Tensor): Lengths of the lattice vectors
             angles (torch.Tensor): Angles between the lattice vectors
             num_atoms (torch.Tensor): Number of atoms in the batch
-            batch (torch.Tensor): Batch index for each atom
+            batch (torch.Tensor): Batch index for each atom.
         """
         x = self.atom_type_embedder(batch.atom_types)
         x += self.lattices_embedder(batch.lattices.view(-1, 9))[batch.batch]

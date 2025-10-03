@@ -62,7 +62,7 @@ def ldm_model(device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_ldm_instantiation(ldm_model, device):
+def test_ldm_instantiation(ldm_model, device) -> None:
     """Test LDM model instantiation.
 
     Verifies that the LDM module can be instantiated with
@@ -81,7 +81,7 @@ def test_ldm_instantiation(ldm_model, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_ldm_forward_pass_shapes(ldm_model, dummy_crystal_batch, device):
+def test_ldm_forward_pass_shapes(ldm_model, dummy_crystal_batch, device) -> None:
     """Test LDM forward pass with shape validation.
 
     Verifies that the loss calculation produces outputs with expected
@@ -110,7 +110,7 @@ def test_ldm_forward_pass_shapes(ldm_model, dummy_crystal_batch, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_ldm_loss_calculation(ldm_model, dummy_crystal_batch, device):
+def test_ldm_loss_calculation(ldm_model, dummy_crystal_batch, device) -> None:
     """Test LDM loss calculation.
 
     Verifies that loss calculation works and produces
@@ -139,7 +139,7 @@ def test_ldm_loss_calculation(ldm_model, dummy_crystal_batch, device):
 @pytest.mark.slow
 def test_ldm_overfit_single_batch(
     ldm_model, dummy_crystal_batch, seed_everything, device
-):
+) -> None:
     """Test LDM can overfit on a single batch.
 
     Critical validation test following Karpathy's principle:

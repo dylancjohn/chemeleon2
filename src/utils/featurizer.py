@@ -1,3 +1,5 @@
+"""Structure featurization utilities for converting crystals to graphs."""
+
 import torch
 from pymatgen.core import Structure
 

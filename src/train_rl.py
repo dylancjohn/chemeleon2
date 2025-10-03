@@ -1,3 +1,5 @@
+"""Training script for Reinforcement Learning fine-tuning."""
+
 import hydra
 import lightning as L
 from lightning import Callback, LightningDataModule, LightningModule, Trainer
@@ -8,7 +10,7 @@ from src.utils.instantiators import instantiate_callbacks, instantiate_loggers
 
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="train_rl.yaml")
-def main(cfg: DictConfig):
+def main(cfg: DictConfig) -> None:
     print(f"Running with config: {OmegaConf.to_yaml(cfg)}")
 
     # Set up random seed

@@ -1,4 +1,8 @@
-# https://github.com/snu-micc/Synthesizability-PU-CGCNN
+"""Crystal Lattice score calculation utilities.
+
+Adapted from https://github.com/snu-micc/Synthesizability-PU-CGCNN
+"""
+
 import argparse
 import json
 import os
@@ -22,8 +26,7 @@ num_models = 100
 
 
 def download_trained_models():
-    """Download trained models for CLScore from the GitHub repository.
-    """
+    """Download trained models for CLScore from the GitHub repository."""
     if not CLSCORE_MODEL_DIR.exists():
         CLSCORE_MODEL_DIR.mkdir(parents=True, exist_ok=True)
         print(f"Created directory: {CLSCORE_MODEL_DIR}")
@@ -52,8 +55,7 @@ def download_trained_models():
 
 
 def download_atom_init_file():
-    """Download the atom initialization file for CLScore.
-    """
+    """Download the atom initialization file for CLScore."""
     if not os.path.exists(ATOM_INIT_FILE):
         print(f"Downloading atom initialization file to {ATOM_INIT_FILE}...")
         url = "https://raw.githubusercontent.com/txie-93/cgcnn/refs/heads/master/data/sample-regression/atom_init.json"
@@ -72,6 +74,8 @@ def download_atom_init_file():
 
 
 class GaussianDistance:
+    """Gaussian distance expansion for structure features."""
+
     def __init__(self, dmin, dmax, step, var=None):
         assert dmin < dmax
         assert dmax - dmin > step
@@ -85,6 +89,8 @@ class GaussianDistance:
 
 
 class AtomInitializer:
+    """Base class for atomic feature initialization."""
+
     def __init__(self, atom_types):
         self.atom_types = set(atom_types)
         self._embedding = {}
@@ -113,6 +119,8 @@ class AtomInitializer:
 
 
 class AtomCustomJSONInitializer(AtomInitializer):
+    """Atomic feature initializer from JSON file."""
+
     def __init__(self, elem_embedding_file):
         with open(elem_embedding_file) as f:
             elem_embedding = json.load(f)
@@ -179,6 +187,8 @@ def collate_pool(dataset_list):
 
 
 class ConvLayer(nn.Module):
+    """Convolutional layer for crystal graph neural network."""
+
     def __init__(self, atom_fea_len, nbr_fea_len):
         super(ConvLayer, self).__init__()
         self.atom_fea_len = atom_fea_len
@@ -218,6 +228,8 @@ class ConvLayer(nn.Module):
 
 
 class CrystalGraphConvNet(nn.Module):
+    """Crystal Graph Convolutional Neural Network for property prediction."""
+
     def __init__(
         self,
         orig_atom_fea_len,

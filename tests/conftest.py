@@ -11,7 +11,7 @@ import torch
 
 
 @pytest.fixture(scope="session")
-def device():
+def device() -> str:
     """Detect and return the available compute device (cuda/cpu)."""
     return "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -20,7 +20,7 @@ def device():
 def seed_everything():
     """Set random seeds for reproducibility across numpy, torch, and Python."""
 
-    def _seed(seed_value=42):
+    def _seed(seed_value=42) -> None:
         import random
 
         random.seed(seed_value)

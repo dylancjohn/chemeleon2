@@ -1,3 +1,5 @@
+"""Latent Diffusion Model PyTorch Lightning module."""
+
 from collections import defaultdict
 from functools import partial
 
@@ -15,6 +17,8 @@ from src.vae_module.vae_module import VAEModule
 
 
 class LDMModule(LightningModule):
+    """Latent Diffusion Model PyTorch Lightning module."""
+
     def __init__(
         self,
         normalize_latent: bool,
@@ -27,7 +31,7 @@ class LDMModule(LightningModule):
         vae_ckpt_path: str | None = None,
         ldm_ckpt_path: str | None = None,
         lora_configs: dict | None = None,
-    ):
+    ) -> None:
         super().__init__()
 
         # Normalize latent vectors
@@ -264,7 +268,7 @@ class LDMModule(LightningModule):
         res: dict,
         split: str,
         batch_size: int | None = None,
-    ):
+    ) -> None:
         for k, v in res.items():
             if isinstance(v, torch.Tensor):
                 v = v.mean()

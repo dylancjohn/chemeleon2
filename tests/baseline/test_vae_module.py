@@ -83,7 +83,7 @@ def vae_model(device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_vae_instantiation(vae_model, device):
+def test_vae_instantiation(vae_model, device) -> None:
     """Test VAE model instantiation.
 
     Verifies that the VAE module can be instantiated with
@@ -99,7 +99,7 @@ def test_vae_instantiation(vae_model, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_vae_forward_pass_shapes(vae_model, dummy_crystal_batch, device):
+def test_vae_forward_pass_shapes(vae_model, dummy_crystal_batch, device) -> None:
     """Test VAE forward pass with shape validation.
 
     Verifies that the forward pass produces outputs with expected
@@ -135,7 +135,7 @@ def test_vae_forward_pass_shapes(vae_model, dummy_crystal_batch, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_vae_loss_calculation(vae_model, dummy_crystal_batch, device):
+def test_vae_loss_calculation(vae_model, dummy_crystal_batch, device) -> None:
     """Test VAE loss calculation.
 
     Verifies that loss calculation works and produces
@@ -170,7 +170,7 @@ def test_vae_loss_calculation(vae_model, dummy_crystal_batch, device):
 @pytest.mark.slow
 def test_vae_overfit_single_batch(
     vae_model, dummy_crystal_batch, seed_everything, device
-):
+) -> None:
     """Test VAE can overfit on a single batch.
 
     Critical validation test following Karpathy's principle:

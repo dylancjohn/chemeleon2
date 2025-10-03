@@ -1,3 +1,5 @@
+"""Training script for Variational Autoencoder."""
+
 import hydra
 import lightning as L
 from lightning import Callback, LightningDataModule, Trainer
@@ -9,7 +11,7 @@ from src.vae_module.vae_module import VAEModule
 
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="train_vae.yaml")
-def main(cfg: DictConfig):
+def main(cfg: DictConfig) -> None:
     print(f"Running with config: {OmegaConf.to_yaml(cfg)}")
 
     # Set up random seed

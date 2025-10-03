@@ -16,19 +16,19 @@ def setup_script_path():
     return Path(__file__).parent.parent.parent / "setup-dev.sh"
 
 
-def test_setup_script_exists(setup_script_path):
+def test_setup_script_exists(setup_script_path) -> None:
     """Test that setup-dev.sh exists at repository root."""
     assert setup_script_path.exists(), "setup-dev.sh not found"
 
 
-def test_setup_script_is_executable(setup_script_path):
+def test_setup_script_is_executable(setup_script_path) -> None:
     """Test that setup-dev.sh is executable."""
     assert os.access(setup_script_path, os.X_OK), (
         "setup-dev.sh is not executable (run: chmod +x setup-dev.sh)"
     )
 
 
-def test_setup_script_has_shebang(setup_script_path):
+def test_setup_script_has_shebang(setup_script_path) -> None:
     """Test that setup-dev.sh has a proper shebang."""
     with open(setup_script_path) as f:
         first_line = f.readline().strip()
@@ -38,7 +38,7 @@ def test_setup_script_has_shebang(setup_script_path):
     assert "bash" in first_line.lower(), "setup-dev.sh should use bash"
 
 
-def test_setup_script_checks_python_version(setup_script_path):
+def test_setup_script_checks_python_version(setup_script_path) -> None:
     """Test that setup-dev.sh checks Python version."""
     with open(setup_script_path) as f:
         content = f.read()
@@ -48,7 +48,7 @@ def test_setup_script_checks_python_version(setup_script_path):
     assert "version" in content.lower(), "Script should check Python version"
 
 
-def test_setup_script_checks_uv(setup_script_path):
+def test_setup_script_checks_uv(setup_script_path) -> None:
     """Test that setup-dev.sh checks for uv package manager."""
     with open(setup_script_path) as f:
         content = f.read()
@@ -59,7 +59,7 @@ def test_setup_script_checks_uv(setup_script_path):
     )
 
 
-def test_setup_script_installs_precommit(setup_script_path):
+def test_setup_script_installs_precommit(setup_script_path) -> None:
     """Test that setup-dev.sh installs pre-commit."""
     with open(setup_script_path) as f:
         content = f.read()
@@ -70,7 +70,7 @@ def test_setup_script_installs_precommit(setup_script_path):
     )
 
 
-def test_setup_script_installs_ruff(setup_script_path):
+def test_setup_script_installs_ruff(setup_script_path) -> None:
     """Test that setup-dev.sh installs Ruff."""
     with open(setup_script_path) as f:
         content = f.read()
@@ -81,7 +81,7 @@ def test_setup_script_installs_ruff(setup_script_path):
     )
 
 
-def test_setup_script_installs_pyright(setup_script_path):
+def test_setup_script_installs_pyright(setup_script_path) -> None:
     """Test that setup-dev.sh installs pyright."""
     with open(setup_script_path) as f:
         content = f.read()
@@ -92,7 +92,7 @@ def test_setup_script_installs_pyright(setup_script_path):
     )
 
 
-def test_setup_script_runs_precommit_install(setup_script_path):
+def test_setup_script_runs_precommit_install(setup_script_path) -> None:
     """Test that setup-dev.sh runs 'pre-commit install'."""
     with open(setup_script_path) as f:
         content = f.read()
@@ -100,7 +100,7 @@ def test_setup_script_runs_precommit_install(setup_script_path):
     assert "pre-commit install" in content, "Script should run 'pre-commit install'"
 
 
-def test_setup_script_has_exit_codes(setup_script_path):
+def test_setup_script_has_exit_codes(setup_script_path) -> None:
     """Test that setup-dev.sh has proper exit codes for different failures."""
     with open(setup_script_path) as f:
         content = f.read()
@@ -117,7 +117,7 @@ def test_setup_script_has_exit_codes(setup_script_path):
     )
 
 
-def test_setup_script_idempotent(setup_script_path):
+def test_setup_script_idempotent(setup_script_path) -> None:
     """Test that setup-dev.sh can be run multiple times without errors.
 
     This test verifies idempotency by checking that the script uses
@@ -142,7 +142,7 @@ def test_setup_script_idempotent(setup_script_path):
             pytest.fail(f"Script contains potentially non-idempotent command: {cmd}")
 
 
-def test_setup_script_creates_git_hooks(setup_script_path):
+def test_setup_script_creates_git_hooks(setup_script_path) -> None:
     """Test that running setup-dev.sh creates .git/hooks/pre-commit.
 
     This is a validation test that checks if the pre-commit hook exists.

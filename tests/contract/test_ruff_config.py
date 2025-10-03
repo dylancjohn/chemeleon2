@@ -23,24 +23,24 @@ def pyproject_data(pyproject_toml_path):
         return tomllib.load(f)
 
 
-def test_pyproject_toml_exists(pyproject_toml_path):
+def test_pyproject_toml_exists(pyproject_toml_path) -> None:
     """Test that pyproject.toml exists at repository root."""
     assert pyproject_toml_path.exists(), "pyproject.toml not found"
 
 
-def test_pyproject_toml_valid_syntax(pyproject_data):
+def test_pyproject_toml_valid_syntax(pyproject_data) -> None:
     """Test that pyproject.toml has valid TOML syntax."""
     assert pyproject_data is not None
     assert isinstance(pyproject_data, dict)
 
 
-def test_ruff_section_exists(pyproject_data):
+def test_ruff_section_exists(pyproject_data) -> None:
     """Test that [tool.ruff] section exists."""
     assert "tool" in pyproject_data, "[tool] section missing"
     assert "ruff" in pyproject_data["tool"], "[tool.ruff] section missing"
 
 
-def test_ruff_target_version(pyproject_data):
+def test_ruff_target_version(pyproject_data) -> None:
     """Test that target-version is set to py311."""
     ruff_config = pyproject_data["tool"]["ruff"]
     assert "target-version" in ruff_config, "target-version not configured"
@@ -49,7 +49,7 @@ def test_ruff_target_version(pyproject_data):
     )
 
 
-def test_ruff_line_length(pyproject_data):
+def test_ruff_line_length(pyproject_data) -> None:
     """Test that line-length is set to 88 (Black-compatible)."""
     ruff_config = pyproject_data["tool"]["ruff"]
     assert "line-length" in ruff_config, "line-length not configured"
@@ -58,13 +58,13 @@ def test_ruff_line_length(pyproject_data):
     )
 
 
-def test_ruff_lint_section_exists(pyproject_data):
+def test_ruff_lint_section_exists(pyproject_data) -> None:
     """Test that [tool.ruff.lint] section exists."""
     ruff_config = pyproject_data["tool"]["ruff"]
     assert "lint" in ruff_config, "[tool.ruff.lint] section missing"
 
 
-def test_ruff_lint_select_rules(pyproject_data):
+def test_ruff_lint_select_rules(pyproject_data) -> None:
     """Test that all required rule sets are enabled in select array."""
     ruff_lint = pyproject_data["tool"]["ruff"]["lint"]
     assert "select" in ruff_lint, "select array not configured"
@@ -79,7 +79,7 @@ def test_ruff_lint_select_rules(pyproject_data):
         assert rule in select_rules, f"Required rule '{rule}' missing from select array"
 
 
-def test_ruff_pydocstyle_convention(pyproject_data):
+def test_ruff_pydocstyle_convention(pyproject_data) -> None:
     """Test that pydocstyle convention is set to 'google'."""
     ruff_lint = pyproject_data["tool"]["ruff"]["lint"]
     assert "pydocstyle" in ruff_lint, "[tool.ruff.lint.pydocstyle] section missing"
@@ -91,7 +91,7 @@ def test_ruff_pydocstyle_convention(pyproject_data):
     )
 
 
-def test_ruff_mccabe_complexity(pyproject_data):
+def test_ruff_mccabe_complexity(pyproject_data) -> None:
     """Test that mccabe max-complexity is set to 10."""
     ruff_lint = pyproject_data["tool"]["ruff"]["lint"]
     assert "mccabe" in ruff_lint, "[tool.ruff.lint.mccabe] section missing"

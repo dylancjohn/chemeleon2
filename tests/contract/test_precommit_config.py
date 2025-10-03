@@ -24,32 +24,32 @@ def precommit_data(precommit_config_path):
         return yaml.safe_load(f)
 
 
-def test_precommit_config_exists(precommit_config_path):
+def test_precommit_config_exists(precommit_config_path) -> None:
     """Test that .pre-commit-config.yaml exists at repository root."""
     assert precommit_config_path.exists(), ".pre-commit-config.yaml not found"
 
 
-def test_precommit_config_valid_yaml(precommit_data):
+def test_precommit_config_valid_yaml(precommit_data) -> None:
     """Test that .pre-commit-config.yaml has valid YAML syntax."""
     assert precommit_data is not None
     assert isinstance(precommit_data, dict)
 
 
-def test_precommit_repos_exists(precommit_data):
+def test_precommit_repos_exists(precommit_data) -> None:
     """Test that repos key exists and is a list."""
     assert "repos" in precommit_data, "repos key missing"
     assert isinstance(precommit_data["repos"], list), "repos should be a list"
     assert len(precommit_data["repos"]) > 0, "repos list is empty"
 
 
-def test_ruff_precommit_repo_present(precommit_data):
+def test_ruff_precommit_repo_present(precommit_data) -> None:
     """Test that ruff-pre-commit repo is present."""
     repos = precommit_data["repos"]
     ruff_repos = [r for r in repos if "astral-sh/ruff-pre-commit" in r.get("repo", "")]
     assert len(ruff_repos) > 0, "ruff-pre-commit repo not found"
 
 
-def test_ruff_hooks_present(precommit_data):
+def test_ruff_hooks_present(precommit_data) -> None:
     """Test that ruff-format and ruff hooks are present."""
     repos = precommit_data["repos"]
     ruff_repos = [r for r in repos if "astral-sh/ruff-pre-commit" in r.get("repo", "")]
@@ -63,7 +63,7 @@ def test_ruff_hooks_present(precommit_data):
     assert "ruff" in hook_ids, "ruff hook not found"
 
 
-def test_pyright_hook_present(precommit_data):
+def test_pyright_hook_present(precommit_data) -> None:
     """Test that pyright hook is present."""
     repos = precommit_data["repos"]
     pyright_repos = [r for r in repos if "pyright" in r.get("repo", "").lower()]
@@ -76,7 +76,7 @@ def test_pyright_hook_present(precommit_data):
     assert "pyright" in hook_ids, "pyright hook not found"
 
 
-def test_file_validators_present(precommit_data):
+def test_file_validators_present(precommit_data) -> None:
     """Test that YAML/TOML/JSON validators are present."""
     repos = precommit_data["repos"]
     precommit_hooks_repos = [
@@ -93,7 +93,7 @@ def test_file_validators_present(precommit_data):
     assert "check-json" in hook_ids, "check-json hook not found"
 
 
-def test_versions_are_pinned(precommit_data):
+def test_versions_are_pinned(precommit_data) -> None:
     """Test that versions are pinned (not 'latest' or branch refs)."""
     repos = precommit_data["repos"]
 
@@ -121,7 +121,7 @@ def test_versions_are_pinned(precommit_data):
         )
 
 
-def test_pytest_not_in_hooks(precommit_data):
+def test_pytest_not_in_hooks(precommit_data) -> None:
     """Test that pytest is NOT in pre-commit hooks (should run in CI only)."""
     repos = precommit_data["repos"]
 

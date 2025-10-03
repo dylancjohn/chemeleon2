@@ -1,3 +1,9 @@
+"""Respaced diffusion for faster sampling with fewer timesteps.
+
+This module implements SpacedDiffusion, which allows skipping timesteps in the
+base diffusion process for faster sampling with DDIM or other accelerated samplers.
+"""
+
 # Adatped from https://github.com/facebookresearch/DiT
 # Modified from OpenAI's diffusion repos
 #     GLIDE: https://github.com/openai/glide-text2im/blob/main/glide_text2im/gaussian_diffusion.py
@@ -69,7 +75,7 @@ class SpacedDiffusion(GaussianDiffusion):
     :param kwargs: the kwargs to create the base diffusion process.
     """
 
-    def __init__(self, use_timesteps, **kwargs):
+    def __init__(self, use_timesteps, **kwargs) -> None:
         self.use_timesteps = set(use_timesteps)
         self.timestep_map = []
         self.original_num_steps = len(kwargs["betas"])
@@ -108,7 +114,7 @@ class SpacedDiffusion(GaussianDiffusion):
 
 
 class _WrappedModel:
-    def __init__(self, model, timestep_map, original_num_steps):
+    def __init__(self, model, timestep_map, original_num_steps) -> None:
         self.model = model
         self.timestep_map = timestep_map
         # self.rescale_timesteps = rescale_timesteps

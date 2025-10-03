@@ -1,3 +1,9 @@
+"""Utility functions for crystal structure dataset conversions.
+
+This module provides conversion functions between pymatgen Structure objects,
+PyTorch Geometric Data objects, and ASE Atoms objects.
+"""
+
 import torch
 from ase import Atoms
 from pymatgen.core import Lattice, Structure

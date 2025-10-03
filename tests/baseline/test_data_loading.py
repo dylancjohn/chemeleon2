@@ -14,7 +14,7 @@ from src.data.schema import CrystalBatch
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_dataloader_batching(dummy_crystal_batch, device):
+def test_dataloader_batching(dummy_crystal_batch, device) -> None:
     """Test dataloader batching with shape validation.
 
     Verifies that CrystalBatch properly batches crystal structures
@@ -52,7 +52,7 @@ def test_dataloader_batching(dummy_crystal_batch, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_label_alignment(dummy_crystal_batch, device):
+def test_label_alignment(dummy_crystal_batch, device) -> None:
     """Test label alignment - count matches structure count.
 
     Verifies that graph-level labels (lattice parameters) match
@@ -96,7 +96,7 @@ def test_label_alignment(dummy_crystal_batch, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_dtypes(dummy_crystal_batch, device):
+def test_dtypes(dummy_crystal_batch, device) -> None:
     """Test dtypes - float32 for coordinates, long for atom types.
 
     Verifies that all tensors in CrystalBatch have the correct
@@ -137,7 +137,7 @@ def test_dtypes(dummy_crystal_batch, device):
 
 @pytest.mark.smoke
 @pytest.mark.baseline
-def test_device_placement(dummy_crystal_batch, device):
+def test_device_placement(dummy_crystal_batch, device) -> None:
     """Test that batch tensors are on the correct device.
 
     Verifies that all tensors in CrystalBatch are placed on

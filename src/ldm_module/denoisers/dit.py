@@ -1,3 +1,9 @@
+"""Diffusion Transformer (DiT) denoiser architecture.
+
+This module implements the DiT architecture for denoising in the latent diffusion model,
+adapted from Meta's DiT paper with support for variable-length sequences and masking.
+"""
+
 # Adapted from:
 # https://github.com/facebookresearch/DiT/models.py
 # https://github.com/facebookresearch/all-atom-diffusion-transformer/src/models/denoisers/dit.py
@@ -31,7 +37,7 @@ def modulate(x, shift, scale):
 class TimestepEmbedder(nn.Module):
     """Embeds scalar timesteps into vector representations."""
 
-    def __init__(self, hidden_dim, frequency_embedding_dim=256):
+    def __init__(self, hidden_dim, frequency_embedding_dim=256) -> None:
         super().__init__()
         self.mlp = nn.Sequential(
             nn.Linear(frequency_embedding_dim, hidden_dim, bias=True),
@@ -92,7 +98,7 @@ class Mlp(nn.Module):
         norm_layer=None,
         bias=True,
         drop=0.0,
-    ):
+    ) -> None:
         super().__init__()
         out_features = out_features or in_features
         hidden_features = hidden_features or in_features
@@ -119,7 +125,7 @@ class Mlp(nn.Module):
 class DiTBlock(nn.Module):
     """A DiT block with adaptive layer norm zero (adaLN-Zero) conditioning."""
 
-    def __init__(self, hidden_dim, num_heads, mlp_ratio=4.0):
+    def __init__(self, hidden_dim, num_heads, mlp_ratio=4.0) -> None:
         super().__init__()
         self.norm1 = nn.LayerNorm(hidden_dim, elementwise_affine=False, eps=1e-6)
         self.attn = nn.MultiheadAttention(
@@ -127,7 +133,8 @@ class DiTBlock(nn.Module):
         )
         self.norm2 = nn.LayerNorm(hidden_dim, elementwise_affine=False, eps=1e-6)
         mlp_hidden_dim = int(hidden_dim * mlp_ratio)
-        approx_gelu = lambda: nn.GELU(approximate="tanh")
+        def approx_gelu():
+            return nn.GELU(approximate="tanh")
         self.mlp = Mlp(
             in_features=hidden_dim,
             hidden_features=mlp_hidden_dim,
@@ -157,7 +164,7 @@ class DiTBlock(nn.Module):
 class FinalLayer(nn.Module):
     """The final layer of DiT."""
 
-    def __init__(self, hidden_dim, out_dim):
+    def __init__(self, hidden_dim, out_dim) -> None:
         super().__init__()
         self.norm_final = nn.LayerNorm(hidden_dim, elementwise_affine=False, eps=1e-6)
         self.linear = nn.Linear(hidden_dim, out_dim, bias=True)
@@ -184,7 +191,7 @@ class DiT(nn.Module):
         num_heads=6,
         mlp_ratio=4.0,
         learn_sigma=True,
-    ):
+    ) -> None:
         super().__init__()
         self.learn_sigma = learn_sigma
         self.latent_dim = latent_dim
@@ -206,9 +213,9 @@ class DiT(nn.Module):
         )
         self.initialize_weights()
 
-    def initialize_weights(self):
+    def initialize_weights(self) -> None:
         # Initialize transformer layers:
-        def _basic_init(module):
+        def _basic_init(module) -> None:
             if isinstance(module, nn.Linear):
                 torch.nn.init.xavier_uniform_(module.weight)
                 if module.bias is not None:

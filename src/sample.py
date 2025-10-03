@@ -1,3 +1,5 @@
+"""Sampling script for generating crystal structures from trained models."""
+
 from pathlib import Path
 
 import numpy as np
@@ -27,7 +29,7 @@ def sample(
     device: str = None,
     save_json: bool = True,
 ):
-    """Sample crystal structures using a pre-trained LDM model.
+    r"""Sample crystal structures using a pre-trained LDM model.
 
     if compositions are provided, it performs the CSP (Crystal Structure Prediction) task.
     elif text_prompts are provided, it performs the TSP (Text-to-Structure Prediction) task.

@@ -104,7 +104,7 @@ def apply_noise(
 
 
 def _random_rotation_matrix(validate: bool = False, **tensor_kwargs) -> torch.Tensor:
-    """https://github.com/facebookresearch/all-atom-diffusion-transformer/src/models/components/kabsch_utils.py
+    """https://github.com/facebookresearch/all-atom-diffusion-transformer/src/models/components/kabsch_utils.py.
 
     Generates a random (3,3) rotation matrix.
 

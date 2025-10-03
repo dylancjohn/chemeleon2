@@ -1,3 +1,5 @@
+"""Reward functions for reinforcement learning fine-tuning."""
+
 import enum
 from collections import defaultdict
 from functools import partial
@@ -14,7 +16,7 @@ from src.vae_module.predictor_module import PredictorModule
 
 
 class RewardType(enum.Enum):
-    """Enum for different reward types"""
+    """Enum for different reward types."""
 
     DNG = "dng"
     CSP = "csp"
@@ -23,7 +25,7 @@ class RewardType(enum.Enum):
 
 
 class ReinforceReward(torch.nn.Module):
-    """Reward function for reinforcement learning"""
+    """Reward function for reinforcement learning."""
 
     def __init__(
         self,
@@ -32,7 +34,7 @@ class ReinforceReward(torch.nn.Module):
         eps: float = 1e-4,
         reference_dataset: str = "mp-20",
         **kwargs,
-    ):
+    ) -> None:
         super().__init__()
         print(f"Starting setup for reward type: {reward_type}")
         self.reward_type = RewardType(reward_type)
@@ -228,7 +230,7 @@ def reward_csp(batch_gen: CrystalBatch, m: Metrics) -> torch.Tensor:
 
 
 def custom_reward(batch_gen: CrystalBatch) -> torch.Tensor:
-    """Calculate custom reward for a batch of structures"""
+    """Calculate custom reward for a batch of structures."""
     gen_structures = batch_gen.to_structure()
     # Placeholder implementation - replace with actual custom reward calculation
     return torch.ones(len(gen_structures), dtype=torch.float32)
@@ -279,7 +281,7 @@ def normalize(x: torch.Tensor, eps: float = 1e-4) -> torch.Tensor:
 
 
 def mmd_reward(z_gen, z_ref):
-    """Training Diffusion Models Towards Diverse Image Generation with Reinforcement Learning"""
+    """Training Diffusion Models Towards Diverse Image Generation with Reinforcement Learning."""
 
     def poly_k(z, y, deg=3):
         d = z.size(-1)

@@ -1,3 +1,9 @@
+"""Gaussian diffusion process implementation.
+
+This module implements the core Gaussian diffusion process for training and sampling,
+including forward diffusion, reverse sampling (DDPM/DDIM), and loss computation.
+"""
+
 # Adatped from https://github.com/facebookresearch/DiT
 # Modified from OpenAI's diffusion repos
 #     GLIDE: https://github.com/openai/glide-text2im/blob/main/glide_text2im/gaussian_diffusion.py
@@ -62,6 +68,8 @@ class ModelVarType(enum.Enum):
 
 
 class LossType(enum.Enum):
+    """Enum for model prediction types in diffusion."""
+
     MSE = enum.auto()  # use raw MSE loss (and KL when learning variances)
     RESCALED_MSE = (
         enum.auto()
@@ -169,7 +177,7 @@ class GaussianDiffusion:
                   starting at T and going to 1.
     """
 
-    def __init__(self, *, betas, model_mean_type, model_var_type, loss_type):
+    def __init__(self, *, betas, model_mean_type, model_var_type, loss_type) -> None:
         self.model_mean_type = model_mean_type
         self.model_var_type = model_var_type
         self.loss_type = loss_type
@@ -251,7 +259,7 @@ class GaussianDiffusion:
 
     def q_posterior_mean_variance(self, x_start, x_t, t):
         """Compute the mean and variance of the diffusion posterior:
-        q(x_{t-1} | x_t, x_0)
+        q(x_{t-1} | x_t, x_0).
         """
         assert x_start.shape == x_t.shape
         posterior_mean = (

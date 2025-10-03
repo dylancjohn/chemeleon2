@@ -23,24 +23,24 @@ def ci_workflow_data(ci_workflow_path):
         return yaml.safe_load(f)
 
 
-def test_ci_workflow_exists(ci_workflow_path):
+def test_ci_workflow_exists(ci_workflow_path) -> None:
     """Test that .github/workflows/ci.yml exists."""
     assert ci_workflow_path.exists(), ".github/workflows/ci.yml not found"
 
 
-def test_ci_workflow_valid_yaml(ci_workflow_data):
+def test_ci_workflow_valid_yaml(ci_workflow_data) -> None:
     """Test that .github/workflows/ci.yml has valid YAML syntax."""
     assert ci_workflow_data is not None
     assert isinstance(ci_workflow_data, dict)
 
 
-def test_workflow_name(ci_workflow_data):
+def test_workflow_name(ci_workflow_data) -> None:
     """Test that workflow has a name."""
     assert "name" in ci_workflow_data, "Workflow name missing"
     assert ci_workflow_data["name"], "Workflow name is empty"
 
 
-def test_triggers_on_pull_request(ci_workflow_data):
+def test_triggers_on_pull_request(ci_workflow_data) -> None:
     """Test that workflow triggers on pull_request events."""
     # YAML parses 'on' as True (boolean), so we need to check for True key
     assert True in ci_workflow_data, "Trigger configuration missing"
@@ -49,7 +49,7 @@ def test_triggers_on_pull_request(ci_workflow_data):
     assert "pull_request" in triggers, "pull_request trigger missing"
 
 
-def test_pull_request_branches(ci_workflow_data):
+def test_pull_request_branches(ci_workflow_data) -> None:
     """Test that pull_request trigger includes main and/or develop branches."""
     triggers = ci_workflow_data[True]
     pr_config = triggers.get("pull_request", {})
@@ -64,13 +64,13 @@ def test_pull_request_branches(ci_workflow_data):
         )
 
 
-def test_triggers_on_push(ci_workflow_data):
+def test_triggers_on_push(ci_workflow_data) -> None:
     """Test that workflow triggers on push to main branch."""
     triggers = ci_workflow_data[True]
     assert "push" in triggers, "push trigger missing"
 
 
-def test_jobs_exist(ci_workflow_data):
+def test_jobs_exist(ci_workflow_data) -> None:
     """Test that jobs are defined."""
     assert "jobs" in ci_workflow_data, "jobs section missing"
     jobs = ci_workflow_data["jobs"]
@@ -78,7 +78,7 @@ def test_jobs_exist(ci_workflow_data):
     assert len(jobs) > 0, "No jobs defined"
 
 
-def test_python_version_in_setup(ci_workflow_data):
+def test_python_version_in_setup(ci_workflow_data) -> None:
     """Test that Python 3.11+ is configured in setup step."""
     jobs = ci_workflow_data["jobs"]
 
@@ -105,7 +105,7 @@ def test_python_version_in_setup(ci_workflow_data):
     )
 
 
-def test_ruff_format_check_step(ci_workflow_data):
+def test_ruff_format_check_step(ci_workflow_data) -> None:
     """Test that ruff format check step is present."""
     jobs = ci_workflow_data["jobs"]
     job_name = list(jobs.keys())[0]
@@ -125,7 +125,7 @@ def test_ruff_format_check_step(ci_workflow_data):
     )
 
 
-def test_ruff_lint_check_step(ci_workflow_data):
+def test_ruff_lint_check_step(ci_workflow_data) -> None:
     """Test that ruff lint check step is present."""
     jobs = ci_workflow_data["jobs"]
     job_name = list(jobs.keys())[0]
@@ -143,7 +143,7 @@ def test_ruff_lint_check_step(ci_workflow_data):
     assert len(ruff_lint_steps) > 0, "Ruff lint check step not found"
 
 
-def test_pyright_step(ci_workflow_data):
+def test_pyright_step(ci_workflow_data) -> None:
     """Test that pyright type checking step is present."""
     jobs = ci_workflow_data["jobs"]
     job_name = list(jobs.keys())[0]
@@ -157,7 +157,7 @@ def test_pyright_step(ci_workflow_data):
     assert len(pyright_steps) > 0, "Pyright type check step not found"
 
 
-def test_pytest_step(ci_workflow_data):
+def test_pytest_step(ci_workflow_data) -> None:
     """Test that pytest step is present."""
     jobs = ci_workflow_data["jobs"]
     job_name = list(jobs.keys())[0]
