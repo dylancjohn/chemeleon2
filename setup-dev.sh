@@ -8,9 +8,25 @@ echo "Development Environment Setup"
 echo "========================================="
 echo ""
 
-# 1. Check Python version >= 3.11
+# 1. Check that .venv exists with Python
+echo -n "Checking virtual environment... "
+if [ ! -f ".venv/bin/python" ]; then
+    echo "✗ Not found"
+    echo "ERROR: .venv/bin/python not found."
+    echo ""
+    echo "This project requires a virtual environment managed by uv."
+    echo "Please create it first:"
+    echo "  uv venv"
+    echo ""
+    exit 1
+fi
+PYTHON_CMD=".venv/bin/python"
+echo "✓ Found"
+
+# 2. Check Python version >= 3.11
 echo -n "Checking Python version... "
-PYTHON_VERSION=$(python --version 2>&1 | awk '{print $2}')
+
+PYTHON_VERSION=$($PYTHON_CMD --version 2>&1 | awk '{print $2}')
 PYTHON_MAJOR=$(echo $PYTHON_VERSION | cut -d. -f1)
 PYTHON_MINOR=$(echo $PYTHON_VERSION | cut -d. -f2)
 
@@ -23,7 +39,7 @@ if [ "$PYTHON_MAJOR" -lt 3 ] || { [ "$PYTHON_MAJOR" -eq 3 ] && [ "$PYTHON_MINOR"
 fi
 echo "✓ Python $PYTHON_VERSION"
 
-# 2. Check if uv is installed
+# 3. Check if uv is installed
 echo -n "Checking uv package manager... "
 if ! command -v uv &> /dev/null; then
     echo "✗ Not found"
@@ -33,7 +49,7 @@ if ! command -v uv &> /dev/null; then
 fi
 echo "✓ Found"
 
-# 3. Install pre-commit framework
+# 4. Install pre-commit framework
 echo -n "Installing pre-commit... "
 if uv pip install pre-commit > /dev/null 2>&1; then
     echo "✓ Done"
@@ -43,7 +59,7 @@ else
     exit 2
 fi
 
-# 4. Install Ruff
+# 5. Install Ruff
 echo -n "Installing Ruff... "
 if uv pip install ruff > /dev/null 2>&1; then
     echo "✓ Done"
@@ -53,7 +69,7 @@ else
     exit 2
 fi
 
-# 5. Install pyright
+# 6. Install pyright
 echo -n "Installing pyright... "
 if uv pip install pyright > /dev/null 2>&1; then
     echo "✓ Done"
@@ -63,9 +79,9 @@ else
     exit 2
 fi
 
-# 6. Install pre-commit hooks
+# 7. Install pre-commit hooks
 echo -n "Installing pre-commit hooks... "
-if pre-commit install > /dev/null 2>&1; then
+if .venv/bin/pre-commit install > /dev/null 2>&1; then
     echo "✓ Done"
 else
     echo "✗ Failed"
@@ -77,11 +93,11 @@ echo ""
 echo "✓ Development environment setup complete!"
 echo ""
 
-# 7. Optional: Run pre-commit on all files (warn but don't fail)
+# 8. Optional: Run pre-commit on all files (warn but don't fail)
 echo "Running pre-commit validation on all files..."
 echo "(This may take a moment and may show warnings)"
 echo ""
-if pre-commit run --all-files; then
+if .venv/bin/pre-commit run --all-files; then
     echo ""
     echo "✓ All pre-commit checks passed!"
 else

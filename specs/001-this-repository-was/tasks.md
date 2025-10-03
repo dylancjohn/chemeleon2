@@ -234,7 +234,7 @@
 
 ## Phase 3.6: Integration & Validation
 
-- [ ] **T020** Install and test pre-commit hooks locally
+- [x] **T020** Install and test pre-commit hooks locally
   - Run: `./setup-dev.sh`
   - Verify exit code 0
   - Verify `.git/hooks/pre-commit` created
@@ -242,7 +242,7 @@
   - Fix violation and verify commit succeeds
   - **Dependency**: Requires T009, T011, T019 (clean codebase)
 
-- [ ] **T021** Run all contract tests
+- [x] **T021** Run all contract tests
   - Execute: `pytest tests/contract/ -v`
   - All 5 contract tests must pass (Ruff, pyright, pre-commit, GitHub Actions, setup script)
   - **Dependency**: Requires T008-T011 (all configs created)
