@@ -23,7 +23,7 @@ def pmg_structure_to_pyg_data(pmg_structure: Structure, **kwargs) -> Data:
         frac_coords=torch.as_tensor(pmg_structure.frac_coords, dtype=torch.float),
         cart_coords=torch.as_tensor(pmg_structure.cart_coords, dtype=torch.float),
         lattices=torch.as_tensor(
-            pmg_structure.lattice.matrix, dtype=torch.float
+            pmg_structure.lattice.matrix.copy(), dtype=torch.float
         ).unsqueeze(0),
         num_atoms=torch.as_tensor([len(pmg_structure)], dtype=torch.long),
         lengths=lengths,
