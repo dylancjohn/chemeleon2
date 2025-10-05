@@ -113,3 +113,7 @@ python src/train_ldm.py ckpt_path=/path/to/checkpoint.ckpt
 - torch-geometric
 - pymatgen
 - wandb
+
+## Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](docs/CONTRIBUTING.md) for detailed setup instructions, development workflow, and guidelines.
