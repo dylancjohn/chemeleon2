@@ -19,6 +19,12 @@ cd chemeleon2
 
 # Install dependencies with uv
 uv sync
+
+# (Optional) Install development dependencies (pytest, ruff, pyright, etc.)
+uv pip install -e ".[dev]"
+
+# (Optional) Install metrics dependencies for evaluation (mace-torch, smact)
+uv pip install -e ".[metrics]"
 ```
 
 ## (Optional) Pytorch Installation with CUDA
