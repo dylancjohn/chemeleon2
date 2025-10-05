@@ -26,14 +26,14 @@ def rl_model(device):
     # Create reward function with minimal configuration
     reward_fn = ReinforceReward(
         reward_type="custom",
-        normalize_fn=None,
+        normalize_fn="norm",
         eps=1e-4,
     )
 
     # Create RL module with minimal configuration
     model = RLModule(
         ldm_ckpt_path=str(DEFAULT_LDM_CKPT_PATH),
-        rl_configs=OmegaConf.create(
+        rl_configs=OmegaConf.create(  # type: ignore[arg-type]
             {
                 "clip_ratio": 0.2,
                 "kl_weight": 0.01,
@@ -44,18 +44,18 @@ def rl_model(device):
             }
         ),
         reward_fn=reward_fn,
-        sampling_configs=OmegaConf.create(
+        sampling_configs=OmegaConf.create(  # type: ignore[arg-type]
             {
                 "sampler": "ddpm",
-                "sampling_steps": 10,  # Reduced for faster testing
+                "sampling_steps": 10,
                 "cfg_scale": 1.0,
                 "eta": 1.0,
-                "collect_trajectory": True,  # Required for RL rollout
-                "progress": False,  # Disable progress bar in tests
+                "collect_trajectory": True,
+                "progress": False,
             }
         ),
-        optimizer=torch.optim.Adam,
-        scheduler=None,
+        optimizer=torch.optim.Adam,  # type: ignore
+        scheduler=None,  # type: ignore
     )
 
     return model.to(device)

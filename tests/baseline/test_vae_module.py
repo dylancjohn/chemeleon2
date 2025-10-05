@@ -10,6 +10,7 @@ import pytest
 import torch
 import torch.nn as nn
 from omegaconf import OmegaConf
+from pymatgen.analysis.structure_matcher import StructureMatcher
 
 from src.vae_module.decoders.transformer import TransformerDecoder
 from src.vae_module.encoders.transformer import TransformerEncoder
@@ -50,7 +51,7 @@ def vae_model(device):
         encoder=encoder,
         decoder=decoder,
         latent_dim=64,
-        loss_weights=OmegaConf.create(
+        loss_weights=OmegaConf.create(  # type: ignore
             {
                 "atom_types": 1.0,
                 "lengths": 1.0,
@@ -60,22 +61,22 @@ def vae_model(device):
                 "fa": 0.0,
             }
         ),
-        augmentation=OmegaConf.create(
+        augmentation=OmegaConf.create(  # type: ignore
             {
                 "translate": False,
                 "rotate": False,
             }
         ),
-        noise=OmegaConf.create(
+        noise=OmegaConf.create(  # type: ignore
             {
                 "ratio": 0.0,
                 "corruption_scale": 0.0,
             }
         ),
         atom_type_predict=True,
-        structure_matcher=None,
-        optimizer=torch.optim.Adam,
-        scheduler=None,
+        structure_matcher=StructureMatcher(),
+        optimizer=torch.optim.Adam,  # type: ignore
+        scheduler=None,  # type: ignore
     )
 
     return model.to(device)

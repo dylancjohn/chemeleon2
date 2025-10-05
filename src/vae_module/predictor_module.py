@@ -19,7 +19,7 @@ class PredictorModule(LightningModule):
         reduce: str,
         use_encoder_features: bool,
         optimizer: torch.optim.Optimizer,
-        scheduler: torch.optim.lr_scheduler,
+        scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
     ) -> None:
         super().__init__()
         self.save_hyperparameters(logger=False)

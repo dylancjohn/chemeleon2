@@ -4,7 +4,7 @@
 repos:
   # Ruff - Python formatter and linter (combined tool)
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.13.3  # Pinned version for consistency between local and CI
+    rev: v0.13.3 # Pinned version for consistency between local and CI
     hooks:
       # Ruff formatter - must run BEFORE linter
       - id: ruff-format
@@ -14,13 +14,13 @@ repos:
       # Ruff linter - runs after formatting
       - id: ruff
         name: "Ruff Lint"
-        args: [--fix]  # Auto-fix violations when possible
+        args: [--fix] # Auto-fix violations when possible
         stages: [pre-commit]
 
   # Pyright - Static type checker for Python
   # See: Decision 13 in research.md - basic mode chosen for practical type checking
   - repo: https://github.com/RobertCraigie/pyright-python
-    rev: v1.1.406  # Pinned version for consistency
+    rev: v1.1.406 # Pinned version for consistency
     hooks:
       - id: pyright
         name: "Pyright Type Check"
@@ -28,7 +28,7 @@ repos:
 
   # Pre-commit hooks - File validation utilities
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0  # Pinned version for consistency
+    rev: v5.0.0 # Pinned version for consistency
     hooks:
       # YAML file validation
       - id: check-yaml
@@ -44,25 +44,3 @@ repos:
       - id: check-json
         name: "Check JSON"
         files: \.json$
-
-# Note: pytest is intentionally excluded from pre-commit hooks
-# Tests run in CI only to keep pre-commit fast (< 15 seconds target)
-
-# ============================================================================
-# Optional: Claude Code Auto-Fix Integration
-# ============================================================================
-# To enable automatic fixing of Ruff/pyright violations using Claude Code:
-#
-# 1. Install Claude Code CLI: https://claude.com/claude-code
-# 2. Run the wrapper script when pre-commit fails:
-#    ./scripts/claude-fix.sh
-#
-# Or run the auto-fix script directly:
-#    ./.git-hooks/claude-autofix.sh
-#
-# The auto-fix tool will:
-# - Attempt automatic fixes for Ruff violations
-# - Run baseline tests to verify no regressions
-# - Show you a diff of changes for review
-#
-# This is opt-in and does not block commits if you prefer manual fixes.

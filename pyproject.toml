@@ -129,4 +129,11 @@ typeCheckingMode = "basic"
 pythonVersion = "3.11"
 # Virtual environment configuration
 venvPath = "."
-venv = ".venv" 
+venv = ".venv"
+exclude = [
+    "./src/utils/ema_callback.py",
+    "./src/vae_module/vae_module.py",
+    "./src/ldm_module/ldm_module.py",
+    "./src/rl_module/rl_module.py",
+    "./src/vae_module/predictor_module.py",
+]

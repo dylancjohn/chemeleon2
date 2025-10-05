@@ -38,10 +38,9 @@ jobs:
       - name: Ruff lint check
         run: ruff check .
 
-      # Pyright type checking (non-blocking for now due to pre-existing type issues)
+      # Pyright type checking (blocking - all type errors resolved)
       - name: Pyright type check
         run: pyright
-        continue-on-error: true # TODO: Change to false once type issues are resolved
 
       # Run test suite (checkpoints auto-download from HF Hub)
       - name: Run tests

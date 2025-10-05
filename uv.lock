@@ -588,19 +588,16 @@ dependencies = [
     { name = "average-minimum-distance" },
     { name = "fire" },
     { name = "h5py" },
+    { name = "huggingface-hub" },
     { name = "hydra-colorlog" },
     { name = "hydra-core" },
     { name = "hydra-optuna-sweeper" },
-    { name = "jupyterlab" },
     { name = "lightning" },
     { name = "mp-api" },
-    { name = "nglview" },
     { name = "peft" },
     { name = "pydantic" },
     { name = "pymatgen" },
-    { name = "pytest" },
-    { name = "rich" },
-    { name = "ruff" },
+    { name = "pyyaml" },
     { name = "smact" },
     { name = "timm" },
     { name = "torch" },
@@ -611,25 +608,38 @@ dependencies = [
     { name = "wandb" },
 ]
 
+[package.optional-dependencies]
+dev = [
+    { name = "jupyterlab" },
+    { name = "nglview" },
+    { name = "pyright" },
+    { name = "pytest" },
+    { name = "rich" },
+    { name = "ruff" },
+]
+
 [package.metadata]
 requires-dist = [
     { name = "ase", specifier = ">=3.26.0" },
     { name = "average-minimum-distance", specifier = ">=1.6.0" },
     { name = "fire", specifier = ">=0.7.1" },
     { name = "h5py", specifier = ">=3.14.0" },
+    { name = "huggingface-hub", specifier = ">=0.20.0" },
     { name = "hydra-colorlog", specifier = "==1.2.0" },
     { name = "hydra-core", specifier = "==1.3.2" },
     { name = "hydra-optuna-sweeper", specifier = "==1.2.0" },
-    { name = "jupyterlab", specifier = ">=4.4.6" },
+    { name = "jupyterlab", marker = "extra == 'dev'", specifier = ">=4.4.6" },
     { name = "lightning", specifier = ">=2.5.4" },
     { name = "mp-api", specifier = ">=0.45.8" },
-    { name = "nglview", specifier = ">=3.1.4" },
+    { name = "nglview", marker = "extra == 'dev'", specifier = ">=3.1.4" },
     { name = "peft", specifier = ">=0.17.1" },
     { name = "pydantic", specifier = ">=2.11.7" },
     { name = "pymatgen", specifier = ">=2025.6.14" },
-    { name = "pytest", specifier = ">=7.0" },
-    { name = "rich", specifier = ">=14.1.0" },
-    { name = "ruff", specifier = ">=0.13.3" },
+    { name = "pyright", marker = "extra == 'dev'", specifier = "==1.1.406" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=7.0" },
+    { name = "pyyaml", specifier = ">=6.0" },
+    { name = "rich", marker = "extra == 'dev'", specifier = ">=14.1.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = "==0.13.3" },
     { name = "smact", specifier = ">=3.2.0" },
     { name = "timm", specifier = ">=1.0.19" },
     { name = "torch", specifier = ">=2.6.0" },
@@ -639,6 +649,7 @@ requires-dist = [
     { name = "tqdm", specifier = ">=4.67.1" },
     { name = "wandb", specifier = ">=0.21.3" },
 ]
+provides-extras = ["dev"]
 
 [[package]]
 name = "click"
@@ -2409,6 +2420,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/55/fe/bd1c2aaa7e38055116e22467ccbc3600936d977afddf91ec049ee900c909/nglview-3.1.4.tar.gz", hash = "sha256:e12b725c92add01174a933899db84bd63beba266d8fa9c3d2926ea453fa0829d", size = 21897115, upload-time = "2024-11-25T05:49:23.046Z" }
 
 [[package]]
+name = "nodeenv"
+version = "1.9.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/43/16/fc88b08840de0e0a72a2f9d8c6bae36be573e475a6326ae854bcc549fc45/nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f", size = 47437, upload-time = "2024-06-04T18:44:11.171Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d2/1d/1b658dbd2b9fa9c4c9f32accbfc0205d532c8c6194dc0f2a4c0428e7128a/nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9", size = 22314, upload-time = "2024-06-04T18:44:08.352Z" },
+]
+
+[[package]]
 name = "notebook"
 version = "7.4.5"
 source = { registry = "https://pypi.org/simple" }
@@ -3435,6 +3455,19 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/0f/49/4cea918a08f02817aabae639e3d0ac046fef9f9180518a3ad394e22da148/pyreadline3-3.5.4.tar.gz", hash = "sha256:8d57d53039a1c75adba8e50dd3d992b28143480816187ea5efbd5c78e6c885b7", size = 99839, upload-time = "2024-09-19T02:40:10.062Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/5a/dc/491b7661614ab97483abf2056be1deee4dc2490ecbf7bff9ab5cdbac86e1/pyreadline3-3.5.4-py3-none-any.whl", hash = "sha256:eaf8e6cc3c49bcccf145fc6067ba8643d1df34d604a1ec0eccbf7a18e6d3fae6", size = 83178, upload-time = "2024-09-19T02:40:08.598Z" },
+]
+
+[[package]]
+name = "pyright"
+version = "1.1.406"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "nodeenv" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f7/16/6b4fbdd1fef59a0292cbb99f790b44983e390321eccbc5921b4d161da5d1/pyright-1.1.406.tar.gz", hash = "sha256:c4872bc58c9643dac09e8a2e74d472c62036910b3bd37a32813989ef7576ea2c", size = 4113151, upload-time = "2025-10-02T01:04:45.488Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f6/a2/e309afbb459f50507103793aaef85ca4348b66814c86bc73908bdeb66d12/pyright-1.1.406-py3-none-any.whl", hash = "sha256:1d81fb43c2407bf566e97e57abb01c811973fdb21b2df8df59f870f688bdca71", size = 5980982, upload-time = "2025-10-02T01:04:43.137Z" },
 ]
 
 [[package]]

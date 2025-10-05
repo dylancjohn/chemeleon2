@@ -16,7 +16,7 @@ Auto-generated from all feature plans. Last updated: 2025-10-03
 Chameleon2 is a generative ML framework for crystal structure prediction using a 3-stage pipeline:
 1. **VAE Module**: Encodes crystal structures into latent space
 2. **LDM Module**: Generates structures in latent space using diffusion
-3. **RL Module**: Fine-tunes LDM using reinforcement learning (PPO)
+3. **RL Module**: Fine-tunes LDM using reinforcement learning (GRPO)
 
 Built on PyTorch Lightning + Hydra, supports Materials Project datasets (mp-20, mp-120).
 

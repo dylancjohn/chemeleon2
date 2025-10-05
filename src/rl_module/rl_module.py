@@ -1,4 +1,4 @@
-"""Reinforcement Learning PyTorch Lightning module using PPO."""
+"""Reinforcement Learning PyTorch Lightning module using GRPO."""
 
 import math
 from collections import defaultdict
@@ -13,7 +13,7 @@ from src.ldm_module.ldm_module import LDMModule
 
 
 class RLModule(LightningModule):
-    """Reinforcement Learning module using PPO for fine-tuning."""
+    """Reinforcement Learning module using GRPO for fine-tuning."""
 
     def __init__(
         self,
@@ -22,7 +22,7 @@ class RLModule(LightningModule):
         reward_fn: torch.nn.Module,
         sampling_configs: dict,
         optimizer: torch.optim.Optimizer,
-        scheduler: torch.optim.lr_scheduler,
+        scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
     ) -> None:
         super().__init__()
         self.save_hyperparameters(logger=False, ignore=["reward_fn"])

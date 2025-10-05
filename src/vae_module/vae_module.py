@@ -1,6 +1,4 @@
-"""modified from
-https://github.com/facebookresearch/all-atom-diffusion-transformer.
-"""
+"""Variational Autoencoder PyTorch Lightning module."""
 
 import numpy as np
 import torch
@@ -30,7 +28,7 @@ class VAEModule(LightningModule):
         atom_type_predict: bool,
         structure_matcher: StructureMatcher,
         optimizer: torch.optim.Optimizer,
-        scheduler: torch.optim.lr_scheduler,
+        scheduler: torch.optim.lr_scheduler.LRScheduler | None = None,
     ) -> None:
         super().__init__()
 
