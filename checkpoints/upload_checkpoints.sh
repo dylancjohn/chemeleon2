@@ -27,29 +27,30 @@ fi
 echo "📦 Uploading 4 checkpoints..."
 echo ""
 
+# Modify with new versioning if needed
 # Upload MP-20 VAE
 echo "1/4 Uploading MP-20 VAE checkpoint..."
 hf upload "$HF_REPO" \
     ckpts/mp_20/vae/dng_m4owq4i5_v0.ckpt \
-    mp_20/vae/dng_m4owq4i5_v0.ckpt
+    v0.0.1/mp_20/vae/dng_m4owq4i5_v0.ckpt
 
 # Upload Alex MP-20 VAE
 echo "2/4 Uploading Alex MP-20 VAE checkpoint..."
 hf upload "$HF_REPO" \
     ckpts/alex_mp_20/vae/dng_j1jgz9t0_v1.ckpt \
-    alex_mp_20/vae/dng_j1jgz9t0_v1.ckpt
+    v0.0.1/alex_mp_20/vae/dng_j1jgz9t0_v1.ckpt
 
 # Upload MP-20 LDM
 echo "3/4 Uploading MP-20 LDM checkpoint..."
 hf upload "$HF_REPO" \
     ckpts/mp_20/ldm/ldm_rl_dng_xxq3a0mn.ckpt \
-    mp_20/ldm/ldm_rl_dng_xxq3a0mn.ckpt
+    v0.0.1/mp_20/ldm/ldm_rl_dng_xxq3a0mn.ckpt
 
 # Upload Alex MP-20 LDM
 echo "4/4 Uploading Alex MP-20 LDM checkpoint..."
 hf upload "$HF_REPO" \
     ckpts/alex_mp_20/ldm/ldm_rl_dng_tuor5vgd.ckpt \
-    alex_mp_20/ldm/ldm_rl_dng_tuor5vgd.ckpt
+    v0.0.1/alex_mp_20/ldm/ldm_rl_dng_tuor5vgd.ckpt
 
 echo ""
 echo "✅ All checkpoints uploaded successfully!"

@@ -6,12 +6,17 @@ from lightning import Callback, LightningDataModule, Trainer
 from lightning.pytorch.loggers import Logger, WandbLogger
 from omegaconf import DictConfig, OmegaConf
 
+from src.utils.checkpoint import resolve_checkpoint_path
 from src.utils.instantiators import instantiate_callbacks, instantiate_loggers
 from src.vae_module.vae_module import VAEModule
 
 
 @hydra.main(version_base="1.3", config_path="../configs", config_name="train_vae.yaml")
 def main(cfg: DictConfig) -> None:
+    OmegaConf.register_new_resolver(
+        "hub", lambda name: str(resolve_checkpoint_path(name)), replace=True
+    )
+
     print(f"Running with config: {OmegaConf.to_yaml(cfg)}")
 
     # Set up random seed
@@ -23,8 +28,9 @@ def main(cfg: DictConfig) -> None:
 
     # Set up Model
     if cfg.get("ckpt_path"):
-        print(f"Loading model from checkpoint: {cfg.ckpt_path}")
-        model: VAEModule = VAEModule.load_from_checkpoint(cfg.ckpt_path)
+        ckpt_path = str(resolve_checkpoint_path(cfg.ckpt_path))
+        print(f"Loading model from checkpoint: {ckpt_path}")
+        model: VAEModule = VAEModule.load_from_checkpoint(ckpt_path)
     else:
         model: VAEModule = hydra.utils.instantiate(cfg.vae_module)
 
@@ -45,7 +51,10 @@ def main(cfg: DictConfig) -> None:
     )
 
     # Train the model
-    trainer.fit(model=model, datamodule=datamodule, ckpt_path=cfg.get("resume_from"))
+    resume_from = cfg.get("resume_from")
+    if resume_from:
+        resume_from = str(resolve_checkpoint_path(resume_from))
+    trainer.fit(model=model, datamodule=datamodule, ckpt_path=resume_from)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ data:
 
 predictor_module:
   vae:
-    checkpoint_path: "ckpts/alex_mp_20/vae/dng_j1jgz9t0_v1.ckpt"
+    checkpoint_path: ${hub:alex_mp_20_vae}
 
   target_conditions:
     dft_band_gap:

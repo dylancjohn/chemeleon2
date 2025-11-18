@@ -26,6 +26,34 @@ Chemeleon2 uses Weights & Biases (wandb) for logging by default.
 wandb login
 ```
 
+### Checkpoint Management
+
+Chemeleon2 supports two ways to specify checkpoint paths:
+
+**1. Hub Resolver** - Automatically downloads from HuggingFace:
+
+```bash
+# In config files or CLI
+vae_ckpt_path: ${hub:mp_20_vae}
+ldm_ckpt_path: ${hub:mp_20_ldm}
+```
+
+**2. Local File Paths** - Use existing checkpoint files:
+
+```bash
+# In config files or CLI
+vae_ckpt_path: ckpts/mp_20/vae/my_checkpoint.ckpt
+```
+
+**Available hub checkpoints:**
+
+- `mp_20_vae` - VAE trained on MP-20
+- `alex_mp_20_vae` - VAE trained on Alex MP-20
+- `mp_20_ldm` - LDM with RL fine-tuning on MP-20
+- `alex_mp_20_ldm` - LDM with RL fine-tuning on Alex MP-20
+
+See example configs in [rl_custom_reward.yaml](../configs/experiment/rl_custom_reward.yaml) for usage.
+
 ## 1. Train VAE (First Stage)
 
 The VAE encodes crystal structures into a continuous latent space.
@@ -129,7 +157,7 @@ The project uses Hydra for configuration management. You can override any parame
 ### Override training parameters
 
 ```bash
-python src/train_ldm.py trainer.max_epochs=100 data.batch_size=32
+python src/train_ldm.py trainer.max_epochs=100 data.batch_size=32 ldm_module.vae_ckpt_path='${hub:mp_20_vae}'
 ```
 
 ### Configuration file structure
