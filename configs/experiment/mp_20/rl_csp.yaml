@@ -13,7 +13,8 @@ data:
   target_condition: composition
 
 rl_module:
-  ldm_ckpt_path: ckpts/mp_20/ldm/ldm_csp_i16hmxnk.ckpt
+  ldm_ckpt_path: ${hub:mp_20_ldm}
+  vae_ckpt_path: ${hub:mp_20_vae}
 
   rl_configs:
     num_group_samples: 10

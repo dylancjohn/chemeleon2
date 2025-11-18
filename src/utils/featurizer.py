@@ -5,7 +5,7 @@ from pymatgen.core import Structure
 
 from src.data.dataset_util import pmg_structure_to_pyg_data
 from src.data.schema import CrystalBatch
-from src.utils.checkpoint_downloader import get_checkpoint
+from src.utils.checkpoint import get_checkpoint
 from src.utils.scatter import scatter_mean, scatter_sum
 from src.vae_module.vae_module import VAEModule
 

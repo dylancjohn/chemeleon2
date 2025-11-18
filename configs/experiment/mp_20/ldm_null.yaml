@@ -10,7 +10,7 @@ defaults:
   - override /hydra: default
 
 ldm_module:
-  vae_ckpt_path: ckpts/mp_20/vae/dng_m4owq4i5_v0.ckpt
+  vae_ckpt_path: ${hub:mp_20_vae}
 
 data:
   target_condition: null

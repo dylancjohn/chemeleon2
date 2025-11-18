@@ -1,6 +1,5 @@
 """Checkpoint download utility using Hugging Face Hub."""
 
-import hashlib
 import time
 from pathlib import Path
 
@@ -18,15 +17,6 @@ def load_checkpoint_config() -> dict:
         return yaml.safe_load(f)
 
 
-def calculate_sha256(file_path: Path) -> str:
-    """Calculate SHA256 checksum of a file."""
-    sha256_hash = hashlib.sha256()
-    with open(file_path, "rb") as f:
-        for byte_block in iter(lambda: f.read(4096), b""):
-            sha256_hash.update(byte_block)
-    return sha256_hash.hexdigest()
-
-
 def get_checkpoint(name: str) -> Path:
     """Download checkpoint from Hugging Face Hub if not cached.
 
@@ -40,7 +30,7 @@ def get_checkpoint(name: str) -> Path:
     config = load_checkpoint_config()
     ckpt_info = config["checkpoints"][name]
     hf_repo = config["config"]["hf_repo"]
-    cache_dir = config["config"]["cache_dir"]
+    local_dir = config["config"]["local_dir"]
     retry_attempts = config["config"].get("retry_attempts", 3)
     retry_delay = config["config"].get("retry_delay", 2)
 
@@ -51,14 +41,8 @@ def get_checkpoint(name: str) -> Path:
             path = hf_hub_download(
                 repo_id=hf_repo,
                 filename=ckpt_info["hf_path"],
-                cache_dir=cache_dir,
+                local_dir=local_dir,
             )
-
-            # Verify checksum
-            actual = calculate_sha256(Path(path))
-            expected = ckpt_info["sha256"]
-            if actual != expected:
-                raise ValueError(f"Checksum mismatch: {actual} != {expected}")
 
             return Path(path)
 
@@ -75,3 +59,31 @@ def get_checkpoint(name: str) -> Path:
     raise RuntimeError(
         f"Failed to download '{name}' after {retry_attempts} attempts"
     ) from last_error
+
+
+def resolve_checkpoint_path(name_or_path: str) -> Path:
+    """Resolve checkpoint path, downloading if necessary.
+
+    Args:
+        name_or_path: Either a checkpoint name (e.g., 'mp_20_vae') or a file path.
+
+    Returns:
+        Path to the checkpoint file.
+
+    Raises:
+        ValueError: If the input is neither a valid file path nor a registered checkpoint name.
+    """
+    # Check if input is an existing file path
+    path = Path(name_or_path)
+    if path.exists():
+        return path
+
+    config = load_checkpoint_config()
+    available = ", ".join(config["checkpoints"].keys())
+    if name_or_path in available:
+        return get_checkpoint(name_or_path)
+    else:
+        raise ValueError(
+            f"'{name_or_path}' is neither a valid file path nor a registered checkpoint name. "
+            f"Available checkpoints: {available}"
+        )

@@ -12,7 +12,8 @@ data:
   batch_size: 320
 
 rl_module:
-  ldm_ckpt_path: ckpts/mp_20/ldm/ldm_null_4tfw67aq.ckpt
+  ldm_ckpt_path: ${hub:mp_20_ldm}
+  vae_ckpt_path: ${hub:mp_20_vae}
 
   rl_configs:
     num_group_samples: 1

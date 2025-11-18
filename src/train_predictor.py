@@ -6,6 +6,7 @@ from lightning import Callback, LightningDataModule, LightningModule, Trainer
 from lightning.pytorch.loggers import Logger, WandbLogger
 from omegaconf import DictConfig, OmegaConf
 
+from src.utils.checkpoint import resolve_checkpoint_path
 from src.utils.instantiators import instantiate_callbacks, instantiate_loggers
 
 
@@ -13,6 +14,10 @@ from src.utils.instantiators import instantiate_callbacks, instantiate_loggers
     version_base="1.3", config_path="../configs", config_name="train_predictor.yaml"
 )
 def main(cfg: DictConfig) -> None:
+    OmegaConf.register_new_resolver(
+        "hub", lambda name: str(resolve_checkpoint_path(name)), replace=True
+    )
+
     print(f"Running with config: {OmegaConf.to_yaml(cfg)}")
 
     # Set up random seed
@@ -42,7 +47,10 @@ def main(cfg: DictConfig) -> None:
     )
 
     # Train the model
-    trainer.fit(model=model, datamodule=datamodule, ckpt_path=cfg.get("ckpt_path"))
+    ckpt_path = cfg.get("ckpt_path")
+    if ckpt_path:
+        ckpt_path = str(resolve_checkpoint_path(ckpt_path))
+    trainer.fit(model=model, datamodule=datamodule, ckpt_path=ckpt_path)
 
 
 if __name__ == "__main__":

@@ -1,13 +1,10 @@
 """Default checkpoint paths - downloads from HF Hub."""
 
-from src.utils.checkpoint_downloader import get_checkpoint
+from src.utils.checkpoint import get_checkpoint, load_checkpoint_config
+
+config = load_checkpoint_config()
+AVAIL_CHECKPOINTS = ", ".join(config["checkpoints"].keys())
 
 # Default checkpoints
 DEFAULT_VAE_CKPT_PATH = get_checkpoint("alex_mp_20_vae")
 DEFAULT_LDM_CKPT_PATH = get_checkpoint("alex_mp_20_ldm")
-
-# Model checkpoints
-MP_20_VAE_CKPT_PATH = get_checkpoint("mp_20_vae")
-MP_20_LDM_CKPT_PATH = get_checkpoint("mp_20_ldm")
-ALEX_MP_20_VAE_CKPT_PATH = get_checkpoint("alex_mp_20_vae")
-ALEX_MP_20_LDM_CKPT_PATH = get_checkpoint("alex_mp_20_ldm")

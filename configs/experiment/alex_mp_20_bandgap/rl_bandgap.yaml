@@ -22,7 +22,8 @@ trainer:
   # strategy: ddp_find_unused_parameters_true
 
 rl_module:
-  ldm_ckpt_path: "ckpts/alex_mp_20/ldm/ldm_rl_dng_tuor5vgd.ckpt"
+  ldm_ckpt_path: ${hub:alex_mp_20_ldm}
+  vae_ckpt_path: ${hub:alex_mp_20_vae}
 
   rl_configs:
     clip_ratio: 0.0001
