@@ -1,6 +1,11 @@
 
 # Chemeleon2
 
+[![GitHub release](https://img.shields.io/github/v/release/hspark1212/chemeleon2)](https://github.com/hspark1212/chemeleon2/releases)
+[![arXiv](https://img.shields.io/badge/arXiv-2511.07158-b31b1b.svg)](https://arxiv.org/abs/2511.07158)
+[![Documentation](https://img.shields.io/badge/📚%20docs-tutorial-blue.svg)](https://hspark1212.github.io/chemeleon2/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 A reinforcement learning framework in latent diffusion models for crystal structure generation using group relative policy optimization.
 
 <p align="center">

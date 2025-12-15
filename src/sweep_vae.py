@@ -3,9 +3,9 @@
 from functools import partial
 
 import hydra
-import wandb
 from omegaconf import DictConfig, OmegaConf
 
+import wandb
 from src.train_vae import main as run_train_vae
 
 
