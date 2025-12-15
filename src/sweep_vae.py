@@ -1,11 +1,11 @@
 """Hyperparameter sweep script for VAE training."""
 
-from functools import partial
+from functools import partial  # noqa: I001
 
 import hydra
+import wandb
 from omegaconf import DictConfig, OmegaConf
 
-import wandb
 from src.train_vae import main as run_train_vae
 
 

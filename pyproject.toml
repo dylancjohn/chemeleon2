@@ -72,8 +72,6 @@ filterwarnings = [
 target-version = "py311"
 # Black-compatible line length
 line-length = 88
-# Source directories for first-party imports
-src = [".", "src"]
 
 [tool.ruff.lint]
 # Rule sets to enable:
@@ -127,11 +125,6 @@ convention = "google"
 [tool.ruff.lint.mccabe]
 # Maximum cyclomatic complexity threshold
 max-complexity = 10
-
-[tool.ruff.lint.isort]
-# Ensure consistent first-party import detection across local and CI environments
-known-first-party = ["src", "custom_reward"]
-detect-same-package = false # Disable auto-detection to prevent package installation
 
 [tool.pyright]
 # Type checking mode - basic provides essential type checking without being overly strict
