@@ -126,6 +126,10 @@ convention = "google"
 # Maximum cyclomatic complexity threshold
 max-complexity = 10
 
+[tool.ruff.lint.isort]
+# Ensure consistent first-party import detection across local and CI environments
+known-first-party = ["src", "custom_reward"]
+
 [tool.pyright]
 # Type checking mode - basic provides essential type checking without being overly strict
 typeCheckingMode = "basic"
