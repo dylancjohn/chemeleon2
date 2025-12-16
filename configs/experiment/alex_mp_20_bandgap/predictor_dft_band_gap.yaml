@@ -1,11 +1,6 @@
 # @package _global_
-defaults:
-  - override /callbacks: default
-  - override /logger: wandb
-  - override /scheduler: constant
-  - override /trainer: default
-  - override /paths: default
-  - override /hydra: default
+# Predictor training for bandgap on Alex-MP-20-Bandgap
+# Inherits most defaults from train_predictor.yaml, but defines custom data config inline
 
 data:
   _target_: src.data.datamodule.DataModule
@@ -13,9 +8,6 @@ data:
   batch_size: 256
   dataset_type: "alex_mp_20_bandgap"
   target_condition: dft_band_gap
-  mace_features: false
-  num_workers: 16
-  pin_memory: false
 
 predictor_module:
   vae:
